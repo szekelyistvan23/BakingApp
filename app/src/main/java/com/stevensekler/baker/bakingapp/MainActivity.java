@@ -1,5 +1,6 @@
 package com.stevensekler.baker.bakingapp;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(MainActivity.this,"No Internet connection!",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this,"No Internet connection!",Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.main_activity), "No Internet connection", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
