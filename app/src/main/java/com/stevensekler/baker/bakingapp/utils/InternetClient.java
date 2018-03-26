@@ -1,5 +1,9 @@
 package com.stevensekler.baker.bakingapp.utils;
 
+import com.stevensekler.baker.bakingapp.model.Cake;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -10,5 +14,5 @@ import retrofit2.http.GET;
 
 public interface InternetClient {
     @GET("/topher/2017/May/59121517_baking/baking.json")
-    Call<String> cakesData();
+    Call<List<Cake>> cakesData();
 }

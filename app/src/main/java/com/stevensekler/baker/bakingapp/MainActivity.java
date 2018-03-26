@@ -30,26 +30,22 @@ public class MainActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://d17h27t6h515a5.cloudfront.net/")
-                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
 
         InternetClient client = retrofit.create(InternetClient.class);
-        Call<String> call = client.cakesData();
+        Call<List<Cake>> call = client.cakesData();
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<List<Cake>>() {
 
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-//                Toast.makeText(MainActivity.this,response.body().toString(),Toast.LENGTH_SHORT).show();
-
-                Type cakeListType = new TypeToken<ArrayList<Cake>>(){}.getType();
-                List<Cake> cakes = new Gson().fromJson(response.body().toString(), cakeListType);
+            public void onResponse(Call<List<Cake>> call, Response<List<Cake>> response) {
+                List<Cake> cakes = response.body();
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<List<Cake>> call, Throwable t) {
 //                Toast.makeText(MainActivity.this,"No Internet connection!",Toast.LENGTH_SHORT).show();
                 Snackbar.make(findViewById(R.id.main_activity), "No Internet connection", Snackbar.LENGTH_SHORT).show();
             }
