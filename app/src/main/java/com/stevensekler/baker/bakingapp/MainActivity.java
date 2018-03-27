@@ -1,6 +1,5 @@
 package com.stevensekler.baker.bakingapp;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -55,5 +54,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"No Internet connection!",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    /** Retrieves the Ingredients from a Cake object to be displayed in the RecyclerView.*/
+    private String extractIngredients (Cake cake){
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < cake.getIngredients().size(); i++){
+            result.append(cake.getIngredients().get(i).getIngredient());
+            if (i != cake.getIngredients().size() - 1){
+                result.append(COMMA);
+            }
+        }
+        return result.toString();
     }
 }
