@@ -17,6 +17,8 @@ public class FragmentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments);
 
+        setTitle(getString(R.string.make_cake));
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             cakeDetail = extras.getParcelable(CAKE_OBJECT);

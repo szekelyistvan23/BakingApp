@@ -71,8 +71,10 @@ public class MainActivity extends AppCompatActivity {
     /** Sets up a RecyclerView to display the available cakes. */
     private void setupRecyclerView(){
         // Butterknife is distributed under Apache License, Version 2.0
-
         ButterKnife.bind(this);
+
+        setTitle(getString(R.string.cakes_title));
+
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
