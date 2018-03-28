@@ -4,4 +4,7 @@
     <string name="cakes_name">Cake\'s name</string>
     <string name="ingredients">flour, sugar, egg</string>
     <string name="no_data">No available data!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
