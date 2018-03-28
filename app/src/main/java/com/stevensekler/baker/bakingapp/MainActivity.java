@@ -1,5 +1,6 @@
 package com.stevensekler.baker.bakingapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private CakeAdapter adapter;
     public static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
+    public static final String CAKE_OBJECT = "cake_object";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CakeAdapter(new ArrayList<Cake>(), new CakeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Cake cake) {
+                Bundle args = new Bundle();
+                args.putParcelable(CAKE_OBJECT, cake);
+                Intent intent = new Intent(MainActivity.this, FragmentsActivity.class);
+                intent.putExtras(args);
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);
