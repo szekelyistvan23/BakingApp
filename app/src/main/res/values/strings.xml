@@ -3,4 +3,5 @@
     <string name="cakes_image">Cakes image</string>
     <string name="cakes_name">Cake\'s name</string>
     <string name="ingredients">flour, sugar, egg</string>
+    <string name="no_data">No available data!</string>
 </resources>
