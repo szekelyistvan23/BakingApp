@@ -5,7 +5,7 @@
     android:id="@+id/main_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffee58"
+    android:background="#fff176"
     tools:context="com.stevensekler.baker.bakingapp.MainActivity">
 
     <android.support.v7.widget.RecyclerView
