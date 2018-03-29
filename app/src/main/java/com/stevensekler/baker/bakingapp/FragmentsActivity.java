@@ -12,6 +12,7 @@ import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 
 public class FragmentsActivity extends AppCompatActivity {
     private Cake cakeDetail;
+    public static final String CAKE_STEPS = "cake_steps";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +20,6 @@ public class FragmentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fragments);
 
         extractBundleData();
-        displayListFragment();
     }
 
     private void extractBundleData(){
@@ -27,6 +27,7 @@ public class FragmentsActivity extends AppCompatActivity {
         if (extras != null) {
             cakeDetail = extras.getParcelable(CAKE_OBJECT);
             setTitle(cakeDetail.getName());
+            displayListFragment();
         } else {
             finish();
             Toast.makeText(FragmentsActivity.this, R.string.no_data, Toast.LENGTH_SHORT).show();
@@ -34,12 +35,16 @@ public class FragmentsActivity extends AppCompatActivity {
     }
 
     private void displayListFragment(){
+        Bundle args = new Bundle();
+//        args.putParcelableArray(CAKE_STEPS, cakeDetail.getSteps());
+
         ListFragment listFragment = new ListFragment();
+//        listFragment.setArguments(extras);
 
-//        firstFragment.setArguments(getIntent().getExtras());
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.list_fragment, listFragment).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.list_fragment, listFragment)
+                .commit();
 
     }
 }
