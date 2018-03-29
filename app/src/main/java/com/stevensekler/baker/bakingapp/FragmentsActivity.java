@@ -7,6 +7,9 @@ import android.widget.Toast;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.fragments.ListFragment;
 import com.stevensekler.baker.bakingapp.model.Cake;
+import com.stevensekler.baker.bakingapp.model.Step;
+
+import java.util.List;
 
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 
@@ -36,15 +39,21 @@ public class FragmentsActivity extends AppCompatActivity {
 
     private void displayListFragment(){
         Bundle args = new Bundle();
-//        args.putParcelableArray(CAKE_STEPS, cakeDetail.getSteps());
+        args.putParcelableArray(CAKE_STEPS, arrayListToStepArray(cakeDetail.getSteps()));
 
         ListFragment listFragment = new ListFragment();
-//        listFragment.setArguments(extras);
+        listFragment.setArguments(args);
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.list_fragment, listFragment)
                 .commit();
-
+    }
+    private Step[] arrayListToStepArray(List<Step> steps){
+        Step[] result = new Step[steps.size()];
+        for (int i = 0; i < steps.size(); i++){
+            result[i] = steps.get(i);
+        }
+        return result;
     }
 }
