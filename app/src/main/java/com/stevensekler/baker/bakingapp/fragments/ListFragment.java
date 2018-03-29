@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.stevensekler.baker.bakingapp.FragmentsActivity.CAKE_STEPS;
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 
 /**
@@ -33,7 +34,7 @@ public class ListFragment extends Fragment {
     RecyclerView stepRecyclerView;
     private StepAdapter stepAdapter;
     private Unbinder unbinder;
-    private Cake cakeFromActivity;
+    private List<Step> stepsFromActivity;
 
     public ListFragment() {
     }
@@ -42,8 +43,9 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        if (savedInstanceState != null){
-            cakeFromActivity = savedInstanceState.getParcelable(CAKE_OBJECT);
+        if (getArguments() != null){
+            Step[] newSteps = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
+            stepsFromActivity = parcelableArrayToListArray(newSteps);
         }
         setupStepRecyclerView(view);
         return view;
@@ -59,8 +61,8 @@ public class ListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         stepRecyclerView.setLayoutManager(layoutManager);
 //        Based on: https://antonioleiva.com/recyclerview-listener/
-        if (cakeFromActivity != null) {
-            stepAdapter = new StepAdapter(cakeFromActivity.getSteps(), new StepAdapter.OnItemClickListener() {
+        if (stepsFromActivity != null) {
+            stepAdapter = new StepAdapter(stepsFromActivity, new StepAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(Step step) {
 
@@ -74,5 +76,13 @@ public class ListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private List<Step> parcelableArrayToListArray (Step[] steps){
+        List<Step> result = new ArrayList<>();
+        for (int i = 0; i < steps.length; i++){
+            result.add(steps[i]);
+        }
+        return result;
     }
 }
