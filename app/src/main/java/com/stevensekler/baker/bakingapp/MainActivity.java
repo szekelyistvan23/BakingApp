@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         setupRecyclerView();
         if (!readSharedPreferences()){
             downloadJsonData();
-        } else {
-            readSharedPreferences();
         }
     }
     /** Downloads data from the Internet using Retrofit and converts data to a List using
@@ -75,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Cake>> call, Throwable t) {
+                finish();
                 Toast.makeText(MainActivity.this,"No Internet connection!",Toast.LENGTH_SHORT).show();
             }
         });
