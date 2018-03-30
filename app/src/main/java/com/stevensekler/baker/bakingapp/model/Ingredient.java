@@ -69,4 +69,11 @@ public class Ingredient implements Parcelable {
             return new Ingredient[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return  quantity + ", " +
+                measure + ", " +
+                ingredient;
+    }
 }

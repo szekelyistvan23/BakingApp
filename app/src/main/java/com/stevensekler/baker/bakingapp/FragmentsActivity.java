@@ -2,6 +2,7 @@ package com.stevensekler.baker.bakingapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.stevensekler.baker.bakingapp.R;
@@ -64,10 +65,20 @@ public class FragmentsActivity extends AppCompatActivity {
 
         ingredients.setId(0);
         ingredients.setShortDescription("Ingredients");
+        ingredients.setDescription(makeIngredientsList());
 
         result.add(ingredients);
         result.addAll(steps);
 
         return result;
+    }
+
+    private String makeIngredientsList (){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < cakeDetail.getIngredients().size(); i++){
+         stringBuilder.append(cakeDetail.getIngredients().get(i).toString());
+         stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 }
