@@ -46,7 +46,6 @@ public class ListFragment extends Fragment {
         if (getArguments() != null){
             Step[] newSteps = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
             stepsFromActivity = parcelableArrayToListArray(newSteps);
-            stepsFromActivity = addingStepForIngredients(stepsFromActivity);
         }
         setupStepRecyclerView(view);
         return view;
@@ -84,19 +83,6 @@ public class ListFragment extends Fragment {
         for (int i = 0; i < steps.length; i++){
             result.add(steps[i]);
         }
-        return result;
-    }
-
-    private List<Step> addingStepForIngredients (List<Step> steps){
-        List<Step> result = new ArrayList<>();
-        Step ingredients = new Step();
-
-        ingredients.setId(0);
-        ingredients.setShortDescription("Ingredients");
-
-        result.add(ingredients);
-        result.addAll(steps);
-
         return result;
     }
 }

@@ -9,6 +9,7 @@ import com.stevensekler.baker.bakingapp.fragments.ListFragment;
 import com.stevensekler.baker.bakingapp.model.Cake;
 import com.stevensekler.baker.bakingapp.model.Step;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
@@ -46,14 +47,27 @@ public class FragmentsActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.list_fragment, listFragment)
+                .replace(R.id.list_fragment, listFragment)
                 .commit();
     }
     private Step[] arrayListToStepArray(List<Step> steps){
+        steps = addingStepForIngredients(steps);
         Step[] result = new Step[steps.size()];
         for (int i = 0; i < steps.size(); i++){
             result[i] = steps.get(i);
         }
+        return result;
+    }
+    private List<Step> addingStepForIngredients (List<Step> steps){
+        List<Step> result = new ArrayList<>();
+        Step ingredients = new Step();
+
+        ingredients.setId(0);
+        ingredients.setShortDescription("Ingredients");
+
+        result.add(ingredients);
+        result.addAll(steps);
+
         return result;
     }
 }
