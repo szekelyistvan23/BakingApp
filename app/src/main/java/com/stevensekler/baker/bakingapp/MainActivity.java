@@ -1,16 +1,21 @@
 package com.stevensekler.baker.bakingapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.stevensekler.baker.bakingapp.adapters.CakeAdapter;
 import com.stevensekler.baker.bakingapp.model.Cake;
 import com.stevensekler.baker.bakingapp.utils.InternetClient;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private CakeAdapter adapter;
     public static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
     public static final String CAKE_OBJECT = "cake_object";
+    public static final String JSON_DATA = "json_data";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +43,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setupRecyclerView();
-        downloadJsonData();
+        if (!readSharedPreferences()){
+            downloadJsonData();
+        } else {
+            readSharedPreferences();
+        }
     }
     /** Downloads data from the Internet using Retrofit and converts data to a List using
      * Gson converter. The implementation is based on:
@@ -60,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Cake>> call, Response<List<Cake>> response) {
                 cakes = response.body();
                 adapter.changeCakeData(cakes);
+                saveSharedPreferences(serializeCakeArray(cakes));
             }
 
             @Override
@@ -91,5 +102,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
+    }
+    private String serializeCakeArray(List<Cake> cakes){
+        Gson gson = new Gson();
+        return gson.toJson(cakes);
+    }
+
+    private List<Cake> deserializeJson(String string){
+        Gson gson = new Gson();
+        Type cakeType = new TypeToken<List<Cake>>(){}.getType();
+        return gson.fromJson(string, cakeType);
+    }
+
+    private void saveSharedPreferences(String string){
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(JSON_DATA, string);
+        editor.apply();
+    }
+    private boolean readSharedPreferences(){
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        String jsonData = sharedPreferences.getString(JSON_DATA, null);
+        if (jsonData != null) {
+            cakes = deserializeJson(jsonData);
+            adapter.changeCakeData(cakes);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
