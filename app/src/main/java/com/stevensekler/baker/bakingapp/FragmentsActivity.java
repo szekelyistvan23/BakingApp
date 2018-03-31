@@ -2,10 +2,8 @@ package com.stevensekler.baker.bakingapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.fragments.ListFragment;
 import com.stevensekler.baker.bakingapp.model.Cake;
 import com.stevensekler.baker.bakingapp.model.Step;
@@ -43,12 +41,12 @@ public class FragmentsActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putParcelableArray(CAKE_STEPS, arrayListToStepArray(cakeDetail.getSteps()));
 
-        ListFragment searchFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("LIST");
+        ListFragment searchListFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("stepsList");
 
-        if (searchFragment != null){
+        if (searchListFragment != null){
             getSupportFragmentManager()
             .beginTransaction()
-            .replace(R.id.list_fragment, searchFragment, "LIST")
+            .replace(R.id.fragment_container, searchListFragment, "stepsList")
             .commit();
         } else {
 
@@ -57,7 +55,7 @@ public class FragmentsActivity extends AppCompatActivity {
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.list_fragment, listFragment, "LIST")
+                    .add(R.id.fragment_container, listFragment, "stepsList")
                     .commit();
         }
     }

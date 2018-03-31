@@ -2,7 +2,6 @@ package com.stevensekler.baker.bakingapp.fragments;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,6 +37,7 @@ public class ListFragment extends Fragment {
     private List<Step> stepsFromActivity;
     private int savedPosition;
     public static final String RECYCLER_VIEW_POSITION = "position";
+    public static final String STEP_OBJECT = "step_object";
 
 
     public ListFragment() {
@@ -76,7 +76,31 @@ public class ListFragment extends Fragment {
             stepAdapter = new StepAdapter(stepsFromActivity, new StepAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(Step step) {
+                    Bundle args = new Bundle();
+                    args.putParcelable(STEP_OBJECT, step);
 
+//                    DescriptionFragment searchDescriptionFragment =
+//                            (DescriptionFragment) getActivity()
+//                                    .getSupportFragmentManager()
+//                                    .findFragmentByTag("description");
+//
+//                    if ( searchDescriptionFragment != null){
+//                        getActivity().getSupportFragmentManager()
+//                                .beginTransaction()
+//                                .replace(R.id.fragment_container, searchDescriptionFragment, "description")
+//                                .addToBackStack(null)
+//                                .commit();
+//                    } else {
+
+                        DescriptionFragment descriptionFragment = new DescriptionFragment();
+                        descriptionFragment.setArguments(args);
+
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, descriptionFragment, "description")
+                                .addToBackStack(null)
+                                .commit();
+//                    }
                 }
             });
             stepRecyclerView.setAdapter(stepAdapter);
