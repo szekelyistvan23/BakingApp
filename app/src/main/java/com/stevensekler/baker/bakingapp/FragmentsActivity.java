@@ -16,6 +16,10 @@ import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 public class FragmentsActivity extends AppCompatActivity {
     private Cake cakeDetail;
     public static final String CAKE_STEPS = "cake_steps";
+    public static final String STEPS_LIST = "steps_list";
+    public static final int INGREDIENTS_ID = 0;
+    public static final String INGREDIENTS_SHORT_DESCRIPTION = "Ingredients";
+    public static final String NEW_LINE = "\n";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class FragmentsActivity extends AppCompatActivity {
         if (searchListFragment != null){
             getSupportFragmentManager()
             .beginTransaction()
-            .replace(R.id.fragment_container, searchListFragment, "stepsList")
+            .replace(R.id.fragment_container, searchListFragment, STEPS_LIST)
             .commit();
         } else {
 
@@ -55,7 +59,7 @@ public class FragmentsActivity extends AppCompatActivity {
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_container, listFragment, "stepsList")
+                    .add(R.id.fragment_container, listFragment, STEPS_LIST)
                     .commit();
         }
     }
@@ -71,8 +75,8 @@ public class FragmentsActivity extends AppCompatActivity {
         List<Step> result = new ArrayList<>();
         Step ingredients = new Step();
 
-        ingredients.setId(0);
-        ingredients.setShortDescription("Ingredients");
+        ingredients.setId(INGREDIENTS_ID);
+        ingredients.setShortDescription(INGREDIENTS_SHORT_DESCRIPTION);
         ingredients.setDescription(makeIngredientsList());
 
         result.add(ingredients);
@@ -85,7 +89,7 @@ public class FragmentsActivity extends AppCompatActivity {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < cakeDetail.getIngredients().size(); i++){
          stringBuilder.append(cakeDetail.getIngredients().get(i).toString());
-         stringBuilder.append("\n");
+         stringBuilder.append(NEW_LINE);
         }
         return stringBuilder.toString();
     }

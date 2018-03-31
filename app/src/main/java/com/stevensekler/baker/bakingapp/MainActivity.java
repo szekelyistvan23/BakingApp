@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Cake>> call, Throwable t) {
                 finish();
-                Toast.makeText(MainActivity.this,"No Internet connection!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.no_internet,Toast.LENGTH_SHORT).show();
             }
         });
     }

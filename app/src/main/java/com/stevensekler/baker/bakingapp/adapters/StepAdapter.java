@@ -16,10 +16,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.stevensekler.baker.bakingapp.FragmentsActivity.INGREDIENTS_SHORT_DESCRIPTION;
+
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder>{
 
     private List<Step> stepArray;
     private OnItemClickListener stepListener;
+    public static final String DOT_AND_SPACE = ". ";
 
     public StepAdapter(List<Step> stepArray, OnItemClickListener stepListener) {
         this.stepArray = stepArray;
@@ -42,11 +45,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     @Override
     public void onBindViewHolder(@NonNull StepViewHolder holder, final int position) {
         String description;
-        if (stepArray.get(position).getShortDescription().equals("Ingredients")){
+        if (stepArray.get(position).getShortDescription().equals(INGREDIENTS_SHORT_DESCRIPTION)){
             description = stepArray.get(position).getShortDescription();
         } else {
             description = stepArray.get(position).getId() +
-                    ". " + stepArray.get(position).getShortDescription();
+                    DOT_AND_SPACE + stepArray.get(position).getShortDescription();
         }
         holder.shortDescription.setText(description);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
