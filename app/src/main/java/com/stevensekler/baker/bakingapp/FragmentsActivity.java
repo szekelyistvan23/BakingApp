@@ -43,13 +43,23 @@ public class FragmentsActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putParcelableArray(CAKE_STEPS, arrayListToStepArray(cakeDetail.getSteps()));
 
-        ListFragment listFragment = new ListFragment();
-        listFragment.setArguments(args);
+        ListFragment searchFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("LIST");
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.list_fragment, listFragment)
-                .commit();
+        if (searchFragment != null){
+            getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.list_fragment, searchFragment, "LIST")
+            .commit();
+        } else {
+
+            ListFragment listFragment = new ListFragment();
+            listFragment.setArguments(args);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.list_fragment, listFragment, "LIST")
+                    .commit();
+        }
     }
     private Step[] arrayListToStepArray(List<Step> steps){
         steps = addingStepForIngredients(steps);
