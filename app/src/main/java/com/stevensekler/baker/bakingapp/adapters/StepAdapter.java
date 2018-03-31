@@ -43,9 +43,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     public void onBindViewHolder(@NonNull StepViewHolder holder, final int position) {
         String description;
         if (stepArray.get(position).getShortDescription().equals("Ingredients")){
-            description = "0. " + stepArray.get(position).getShortDescription();
+            description = stepArray.get(position).getShortDescription();
         } else {
-            description = (stepArray.get(position).getId() + 1) +
+            description = stepArray.get(position).getId() +
                     ". " + stepArray.get(position).getShortDescription();
         }
         holder.shortDescription.setText(description);
