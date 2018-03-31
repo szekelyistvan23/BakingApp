@@ -2,6 +2,8 @@ package com.stevensekler.baker.bakingapp.fragments;
 
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.adapters.StepAdapter;
-import com.stevensekler.baker.bakingapp.model.Cake;
 import com.stevensekler.baker.bakingapp.model.Step;
 
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static com.stevensekler.baker.bakingapp.FragmentsActivity.CAKE_STEPS;
-import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,9 +32,13 @@ public class ListFragment extends Fragment {
 
     @BindView(R.id.step_recycler_view)
     RecyclerView stepRecyclerView;
+    private LinearLayoutManager layoutManager;
     private StepAdapter stepAdapter;
     private Unbinder unbinder;
     private List<Step> stepsFromActivity;
+    private int savedPosition;
+    public static final String RECYCLER_VIEW_POSITION = "position";
+
 
     public ListFragment() {
     }
@@ -42,23 +46,30 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list, container, false);
-        if (getArguments() != null){
+        if (savedInstanceState != null) {
+            savedPosition = savedInstanceState.getInt(RECYCLER_VIEW_POSITION);
+        }
+
+        if (getArguments() != null) {
             Step[] newSteps = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
             stepsFromActivity = parcelableArrayToListArray(newSteps);
         }
-        setupStepRecyclerView(view);
+
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
+
+        setupStepRecyclerView(view, savedInstanceState);
         return view;
     }
 
-    /** Sets up a RecyclerView to display the steps to make a cake. */
-    private void setupStepRecyclerView(View view){
+    /**
+     * Sets up a RecyclerView to display the steps to make a cake.
+     */
+    private void setupStepRecyclerView(View view, Bundle state) {
         // Butterknife is distributed under Apache License, Version 2.0
         unbinder = ButterKnife.bind(this, view);
 
         stepRecyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         stepRecyclerView.setLayoutManager(layoutManager);
 //        Based on: https://antonioleiva.com/recyclerview-listener/
         if (stepsFromActivity != null) {
@@ -73,16 +84,40 @@ public class ListFragment extends Fragment {
     }
 
     @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            scrollToPosition(savedInstanceState.getInt(RECYCLER_VIEW_POSITION));
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
-    private List<Step> parcelableArrayToListArray (Step[] steps){
+    private List<Step> parcelableArrayToListArray(Step[] steps) {
         List<Step> result = new ArrayList<>();
-        for (int i = 0; i < steps.length; i++){
+        for (int i = 0; i < steps.length; i++) {
             result.add(steps[i]);
         }
         return result;
+    }
+
+    private void scrollToPosition(final int position) {
+            stepRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (layoutManager != null)
+                        layoutManager.scrollToPosition(position);
+                }
+            });
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(RECYCLER_VIEW_POSITION,layoutManager.findFirstCompletelyVisibleItemPosition());
     }
 }
