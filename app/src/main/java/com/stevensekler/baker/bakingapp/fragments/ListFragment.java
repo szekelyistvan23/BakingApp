@@ -35,9 +35,10 @@ public class ListFragment extends Fragment {
     private StepAdapter stepAdapter;
     private Unbinder unbinder;
     private List<Step> stepsFromActivity;
-    private int savedPosition;
     public static final String RECYCLER_VIEW_POSITION = "position";
     public static final String STEP_OBJECT = "step_object";
+    public static final String DESCRIPTION_FRAGMENT_DISPLAYED = "description_fragment_displayed";
+    public static final String DESCRIPTION_FRAGMENT = "description_fragment";
 
 
     public ListFragment() {
@@ -46,9 +47,6 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            savedPosition = savedInstanceState.getInt(RECYCLER_VIEW_POSITION);
-        }
 
         if (getArguments() != null) {
             Step[] newSteps = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
@@ -58,6 +56,7 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
         setupStepRecyclerView(view, savedInstanceState);
+
         return view;
     }
 
@@ -79,28 +78,13 @@ public class ListFragment extends Fragment {
                     Bundle args = new Bundle();
                     args.putParcelable(STEP_OBJECT, step);
 
-//                    DescriptionFragment searchDescriptionFragment =
-//                            (DescriptionFragment) getActivity()
-//                                    .getSupportFragmentManager()
-//                                    .findFragmentByTag("description");
-//
-//                    if ( searchDescriptionFragment != null){
-//                        getActivity().getSupportFragmentManager()
-//                                .beginTransaction()
-//                                .replace(R.id.fragment_container, searchDescriptionFragment, "description")
-//                                .addToBackStack(null)
-//                                .commit();
-//                    } else {
-
                         DescriptionFragment descriptionFragment = new DescriptionFragment();
                         descriptionFragment.setArguments(args);
 
                         getActivity().getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.fragment_container, descriptionFragment, "description")
-                                .addToBackStack(null)
+                                .replace(R.id.fragment_container, descriptionFragment, DESCRIPTION_FRAGMENT)
                                 .commit();
-//                    }
                 }
             });
             stepRecyclerView.setAdapter(stepAdapter);

@@ -1,9 +1,11 @@
 package com.stevensekler.baker.bakingapp;
 
+import android.os.DeadSystemException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.stevensekler.baker.bakingapp.fragments.DescriptionFragment;
 import com.stevensekler.baker.bakingapp.fragments.ListFragment;
 import com.stevensekler.baker.bakingapp.model.Cake;
 import com.stevensekler.baker.bakingapp.model.Step;
@@ -12,29 +14,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
+import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
 
-public class FragmentsActivity extends AppCompatActivity {
+public class FragmentsActivity extends AppCompatActivity implements DescriptionFragment.PassDataToActivity{
     private Cake cakeDetail;
     public static final String CAKE_STEPS = "cake_steps";
     public static final String STEPS_LIST = "steps_list";
     public static final int INGREDIENTS_ID = 0;
     public static final String INGREDIENTS_SHORT_DESCRIPTION = "Ingredients";
     public static final String NEW_LINE = "\n";
+    private DescriptionFragment descriptionFragment;
+    private boolean isDescriptionFragmentDisplayed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments);
 
-        extractBundleData();
+        extractBundleData(savedInstanceState);
     }
 
-    private void extractBundleData(){
+    private void extractBundleData(Bundle bundle){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            if (bundle != null) {
+                isDescriptionFragmentDisplayed = bundle.getBoolean("STATE");
+            }
             cakeDetail = extras.getParcelable(CAKE_OBJECT);
             setTitle(cakeDetail.getName());
             displayListFragment();
+            displayDescriptionFragment();
         } else {
             finish();
             Toast.makeText(FragmentsActivity.this, R.string.no_data, Toast.LENGTH_SHORT).show();
@@ -45,7 +54,7 @@ public class FragmentsActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putParcelableArray(CAKE_STEPS, arrayListToStepArray(cakeDetail.getSteps()));
 
-        ListFragment searchListFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("stepsList");
+        ListFragment searchListFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag(STEPS_LIST);
 
         if (searchListFragment != null){
             getSupportFragmentManager()
@@ -92,5 +101,51 @@ public class FragmentsActivity extends AppCompatActivity {
          stringBuilder.append(NEW_LINE);
         }
         return stringBuilder.toString();
+    }
+    @Override
+    public void descriptionFragmentDisplayed(boolean state) {
+        isDescriptionFragmentDisplayed = state;
+    }
+
+    private void displayDescriptionFragment(){
+        if (isDescriptionFragmentDisplayed) {
+
+            DescriptionFragment searchDescriptionFragment =
+                    (DescriptionFragment) getSupportFragmentManager()
+                            .findFragmentByTag(DESCRIPTION_FRAGMENT);
+
+            if (searchDescriptionFragment != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, searchDescriptionFragment, DESCRIPTION_FRAGMENT)
+                        .commit();
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("STATE",isDescriptionFragmentDisplayed);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    DescriptionFragment descriptionFragment =
+            (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
+        ListFragment listFragment =
+                (ListFragment) getSupportFragmentManager().findFragmentByTag(STEPS_LIST);
+
+    if (descriptionFragment != null && descriptionFragment.isVisible()){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new ListFragment(), STEPS_LIST)
+                .commit();
+        isDescriptionFragmentDisplayed = false;
+    } else {
+        super.onBackPressed();
+    }
+
     }
 }
