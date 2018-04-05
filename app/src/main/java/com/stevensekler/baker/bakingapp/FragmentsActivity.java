@@ -2,8 +2,10 @@ package com.stevensekler.baker.bakingapp;
 
 import android.os.DeadSystemException;
 import android.os.Parcelable;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.stevensekler.baker.bakingapp.fragments.DescriptionFragment;
@@ -105,6 +107,7 @@ ListFragment.SendPositionToActivity{
         }
         return stringBuilder.toString();
     }
+
     @Override
     public void descriptionFragmentDisplayed(boolean state) {
         isDescriptionFragmentDisplayed = state;
@@ -139,22 +142,41 @@ ListFragment.SendPositionToActivity{
 
     @Override
     public void onBackPressed() {
-
     ListFragment listFragment = ListFragment.newInstance(listFragmentState, cakeDetail.getSteps());
-
-
     DescriptionFragment descriptionFragment =
             (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
 
-    if (descriptionFragment != null && descriptionFragment.isVisible()){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, listFragment, STEPS_LIST)
-                .commit();
-        isDescriptionFragmentDisplayed = false;
-    } else {
-        super.onBackPressed();
+        if (descriptionFragment != null && descriptionFragment.isVisible()){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, listFragment, STEPS_LIST)
+                    .commit();
+            isDescriptionFragmentDisplayed = false;
+        } else {
+            super.onBackPressed();
+        }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        ListFragment listFragment = ListFragment.newInstance(listFragmentState, cakeDetail.getSteps());
+        DescriptionFragment descriptionFragment =
+                (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (descriptionFragment != null && descriptionFragment.isVisible()){
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, listFragment, STEPS_LIST)
+                            .commit();
+                    isDescriptionFragmentDisplayed = false;
+                } else {
+                    NavUtils.navigateUpFromSameTask(this);
+                }
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
