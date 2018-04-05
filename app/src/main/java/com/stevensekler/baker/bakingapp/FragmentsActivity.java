@@ -30,6 +30,8 @@ ListFragment.SendPositionToActivity{
     private int recyclerViewPosition = 0;
     private boolean isDescriptionFragmentDisplayed;
     private Parcelable listFragmentState;
+    private ListFragment listFragment;
+    private DescriptionFragment descriptionFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,16 +110,6 @@ ListFragment.SendPositionToActivity{
         return stringBuilder.toString();
     }
 
-    @Override
-    public void descriptionFragmentDisplayed(boolean state) {
-        isDescriptionFragmentDisplayed = state;
-    }
-
-    @Override
-    public void listRecyclerViewPosition(Parcelable parcelable) {
-        listFragmentState = parcelable;
-    }
-
     private void displayDescriptionFragment(){
         if (isDescriptionFragmentDisplayed) {
 
@@ -134,6 +126,30 @@ ListFragment.SendPositionToActivity{
         }
     }
 
+    private void initializeAndSearchFragments(){
+        listFragment = ListFragment.newInstance(listFragmentState, cakeDetail.getSteps());
+        descriptionFragment =
+                (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
+    }
+
+    private void addNewListFragment(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, listFragment, STEPS_LIST)
+                .commit();
+        isDescriptionFragmentDisplayed = false;
+    }
+
+    @Override
+    public void descriptionFragmentDisplayed(boolean state) {
+        isDescriptionFragmentDisplayed = state;
+    }
+
+    @Override
+    public void listRecyclerViewPosition(Parcelable parcelable) {
+        listFragmentState = parcelable;
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -142,15 +158,10 @@ ListFragment.SendPositionToActivity{
 
     @Override
     public void onBackPressed() {
-    ListFragment listFragment = ListFragment.newInstance(listFragmentState, cakeDetail.getSteps());
-    DescriptionFragment descriptionFragment =
-            (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
+        initializeAndSearchFragments();
 
         if (descriptionFragment != null && descriptionFragment.isVisible()){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, listFragment, STEPS_LIST)
-                    .commit();
+        addNewListFragment();
             isDescriptionFragmentDisplayed = false;
         } else {
             super.onBackPressed();
@@ -159,18 +170,12 @@ ListFragment.SendPositionToActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        ListFragment listFragment = ListFragment.newInstance(listFragmentState, cakeDetail.getSteps());
-        DescriptionFragment descriptionFragment =
-                (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
+        initializeAndSearchFragments();
 
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (descriptionFragment != null && descriptionFragment.isVisible()){
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, listFragment, STEPS_LIST)
-                            .commit();
-                    isDescriptionFragmentDisplayed = false;
+                addNewListFragment();
                 } else {
                     NavUtils.navigateUpFromSameTask(this);
                 }
