@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stevensekler.baker.bakingapp.FragmentsActivity;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.adapters.StepAdapter;
 import com.stevensekler.baker.bakingapp.model.Step;
@@ -39,7 +40,6 @@ public class ListFragment extends Fragment {
     public static final String STEP_OBJECT = "step_object";
     public static final String DESCRIPTION_FRAGMENT_DISPLAYED = "description_fragment_displayed";
     public static final String DESCRIPTION_FRAGMENT = "description_fragment";
-
 
     public ListFragment() {
     }
@@ -127,5 +127,25 @@ public class ListFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(RECYCLER_VIEW_POSITION,layoutManager.findFirstCompletelyVisibleItemPosition());
+    }
+
+    public static Step[] arrayListToStepArray(List<Step> steps){
+        Step[] result = new Step[steps.size()];
+        for (int i = 0; i < steps.size(); i++){
+            result[i] = steps.get(i);
+        }
+        return result;
+    }
+
+    public static ListFragment newInstance(int position, List<Step> steps) {
+
+        Bundle args = new Bundle();
+
+        args.putInt(RECYCLER_VIEW_POSITION, position);
+        args.putParcelableArray(CAKE_STEPS, arrayListToStepArray(steps));
+
+        ListFragment fragment = new ListFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 }
