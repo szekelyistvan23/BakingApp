@@ -1,7 +1,9 @@
 package com.stevensekler.baker.bakingapp.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,12 +38,18 @@ public class ListFragment extends Fragment {
     private StepAdapter stepAdapter;
     private Unbinder unbinder;
     private List<Step> stepsFromActivity;
+    private int position;
     public static final String RECYCLER_VIEW_POSITION = "position";
     public static final String STEP_OBJECT = "step_object";
     public static final String DESCRIPTION_FRAGMENT_DISPLAYED = "description_fragment_displayed";
     public static final String DESCRIPTION_FRAGMENT = "description_fragment";
+    SendPositionToActivity callbackForPosition;
 
     public ListFragment() {
+    }
+
+    public interface SendPositionToActivity{
+        void listRecyclerViewPosition(int position);
     }
 
     @Override
@@ -51,6 +59,7 @@ public class ListFragment extends Fragment {
         if (getArguments() != null) {
             Step[] newSteps = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
             stepsFromActivity = parcelableArrayToListArray(newSteps);
+            position = getArguments().getInt(RECYCLER_VIEW_POSITION);
         }
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
@@ -100,6 +109,12 @@ public class ListFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        callbackForPosition.listRecyclerViewPosition(layoutManager.findFirstCompletelyVisibleItemPosition());
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -127,6 +142,7 @@ public class ListFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(RECYCLER_VIEW_POSITION,layoutManager.findFirstCompletelyVisibleItemPosition());
+
     }
 
     public static Step[] arrayListToStepArray(List<Step> steps){
@@ -147,5 +163,15 @@ public class ListFragment extends Fragment {
         ListFragment fragment = new ListFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            callbackForPosition = (SendPositionToActivity) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "must implement SendPositionToActivity");
+        }
     }
 }

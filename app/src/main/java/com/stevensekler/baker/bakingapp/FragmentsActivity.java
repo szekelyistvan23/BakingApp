@@ -16,14 +16,15 @@ import java.util.List;
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
 
-public class FragmentsActivity extends AppCompatActivity implements DescriptionFragment.PassDataToActivity{
+public class FragmentsActivity extends AppCompatActivity implements DescriptionFragment.PassDataToActivity,
+ListFragment.SendPositionToActivity{
     private Cake cakeDetail;
     public static final String CAKE_STEPS = "cake_steps";
     public static final String STEPS_LIST = "steps_list";
     public static final int INGREDIENTS_ID = 0;
     public static final String INGREDIENTS_SHORT_DESCRIPTION = "Ingredients";
     public static final String NEW_LINE = "\n";
-    private DescriptionFragment descriptionFragment;
+    private int recyclerViewPosition = 0;
     private boolean isDescriptionFragmentDisplayed;
 
     @Override
@@ -107,6 +108,11 @@ public class FragmentsActivity extends AppCompatActivity implements DescriptionF
         isDescriptionFragmentDisplayed = state;
     }
 
+    @Override
+    public void listRecyclerViewPosition(int position) {
+        recyclerViewPosition = position;
+    }
+
     private void displayDescriptionFragment(){
         if (isDescriptionFragmentDisplayed) {
 
@@ -132,15 +138,16 @@ public class FragmentsActivity extends AppCompatActivity implements DescriptionF
     @Override
     public void onBackPressed() {
 
+    ListFragment listFragment = ListFragment.newInstance(recyclerViewPosition, cakeDetail.getSteps());
+
+
     DescriptionFragment descriptionFragment =
             (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
-        ListFragment listFragment =
-                (ListFragment) getSupportFragmentManager().findFragmentByTag(STEPS_LIST);
 
     if (descriptionFragment != null && descriptionFragment.isVisible()){
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new ListFragment(), STEPS_LIST)
+                .replace(R.id.fragment_container, listFragment, STEPS_LIST)
                 .commit();
         isDescriptionFragmentDisplayed = false;
     } else {
