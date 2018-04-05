@@ -1,6 +1,7 @@
 package com.stevensekler.baker.bakingapp;
 
 import android.os.DeadSystemException;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ ListFragment.SendPositionToActivity{
     public static final String NEW_LINE = "\n";
     private int recyclerViewPosition = 0;
     private boolean isDescriptionFragmentDisplayed;
+    private Parcelable listFragmentState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +111,8 @@ ListFragment.SendPositionToActivity{
     }
 
     @Override
-    public void listRecyclerViewPosition(int position) {
-        recyclerViewPosition = position;
+    public void listRecyclerViewPosition(Parcelable parcelable) {
+        listFragmentState = parcelable;
     }
 
     private void displayDescriptionFragment(){
@@ -138,7 +140,7 @@ ListFragment.SendPositionToActivity{
     @Override
     public void onBackPressed() {
 
-    ListFragment listFragment = ListFragment.newInstance(recyclerViewPosition, cakeDetail.getSteps());
+    ListFragment listFragment = ListFragment.newInstance(listFragmentState, cakeDetail.getSteps());
 
 
     DescriptionFragment descriptionFragment =

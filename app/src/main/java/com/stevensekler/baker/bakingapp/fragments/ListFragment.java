@@ -4,6 +4,7 @@ package com.stevensekler.baker.bakingapp.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,7 @@ public class ListFragment extends Fragment {
     private Unbinder unbinder;
     private List<Step> stepsFromActivity;
     private int position;
+    private Parcelable restoreState;
     public static final String RECYCLER_VIEW_POSITION = "position";
     public static final String STEP_OBJECT = "step_object";
     public static final String DESCRIPTION_FRAGMENT_DISPLAYED = "description_fragment_displayed";
@@ -49,7 +51,7 @@ public class ListFragment extends Fragment {
     }
 
     public interface SendPositionToActivity{
-        void listRecyclerViewPosition(int position);
+        void listRecyclerViewPosition(Parcelable parcelable);
     }
 
     @Override
@@ -59,7 +61,7 @@ public class ListFragment extends Fragment {
         if (getArguments() != null) {
             Step[] newSteps = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
             stepsFromActivity = parcelableArrayToListArray(newSteps);
-            position = getArguments().getInt(RECYCLER_VIEW_POSITION);
+            restoreState = getArguments().getParcelable(RECYCLER_VIEW_POSITION);
         }
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
@@ -106,12 +108,15 @@ public class ListFragment extends Fragment {
         if (savedInstanceState != null) {
             scrollToPosition(savedInstanceState.getInt(RECYCLER_VIEW_POSITION));
         }
+        if (restoreState !=  null){
+            layoutManager.onRestoreInstanceState(restoreState);
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        callbackForPosition.listRecyclerViewPosition(layoutManager.findFirstCompletelyVisibleItemPosition());
+        callbackForPosition.listRecyclerViewPosition(layoutManager.onSaveInstanceState());
     }
 
     @Override
@@ -153,11 +158,11 @@ public class ListFragment extends Fragment {
         return result;
     }
 
-    public static ListFragment newInstance(int position, List<Step> steps) {
+    public static ListFragment newInstance(Parcelable state, List<Step> steps) {
 
         Bundle args = new Bundle();
 
-        args.putInt(RECYCLER_VIEW_POSITION, position);
+        args.putParcelable(RECYCLER_VIEW_POSITION, state);
         args.putParcelableArray(CAKE_STEPS, arrayListToStepArray(steps));
 
         ListFragment fragment = new ListFragment();
