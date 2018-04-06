@@ -27,11 +27,13 @@ ListFragment.SendPositionToActivity{
     public static final int INGREDIENTS_ID = 0;
     public static final String INGREDIENTS_SHORT_DESCRIPTION = "Ingredients";
     public static final String NEW_LINE = "\n";
+    public static final String LIST_FRAGMENT_STATE = "list_fragment_state";
     private int recyclerViewPosition = 0;
     private boolean isDescriptionFragmentDisplayed;
     private Parcelable listFragmentState;
     private ListFragment listFragment;
     private DescriptionFragment descriptionFragment;
+    private boolean twoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ ListFragment.SendPositionToActivity{
         if (extras != null) {
             if (bundle != null) {
                 isDescriptionFragmentDisplayed = bundle.getBoolean("STATE");
+                listFragmentState = bundle.getParcelable(LIST_FRAGMENT_STATE);
             }
             cakeDetail = extras.getParcelable(CAKE_OBJECT);
             setTitle(cakeDetail.getName());
@@ -154,6 +157,7 @@ ListFragment.SendPositionToActivity{
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("STATE",isDescriptionFragmentDisplayed);
+        outState.putParcelable(LIST_FRAGMENT_STATE, listFragmentState);
     }
 
     @Override
