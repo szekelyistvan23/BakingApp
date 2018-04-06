@@ -62,7 +62,7 @@ ListFragment.SendPositionToActivity{
 
     private void displayListFragment(){
         Bundle args = new Bundle();
-        args.putParcelableArray(CAKE_STEPS, arrayListToStepArray(cakeDetail.getSteps()));
+        args.putParcelableArray(CAKE_STEPS, addingStepForIngredients(cakeDetail.getSteps()));
 
         ListFragment searchListFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag(STEPS_LIST);
 
@@ -82,25 +82,18 @@ ListFragment.SendPositionToActivity{
                     .commit();
         }
     }
-    private Step[] arrayListToStepArray(List<Step> steps){
-        steps = addingStepForIngredients(steps);
-        Step[] result = new Step[steps.size()];
-        for (int i = 0; i < steps.size(); i++){
-            result[i] = steps.get(i);
-        }
-        return result;
-    }
-    private List<Step> addingStepForIngredients (List<Step> steps){
-        List<Step> result = new ArrayList<>();
+    private Step[] addingStepForIngredients (Step[] steps){
+        Step[] result = new Step[steps.length];
         Step ingredients = new Step();
 
         ingredients.setId(INGREDIENTS_ID);
         ingredients.setShortDescription(INGREDIENTS_SHORT_DESCRIPTION);
         ingredients.setDescription(makeIngredientsList());
 
-        result.add(ingredients);
-        result.addAll(steps);
-
+        result[0] = ingredients;
+        for (int i = 1; i < steps.length; i++){
+            result[i] = steps[i-1];
+        }
         return result;
     }
 
@@ -131,7 +124,7 @@ ListFragment.SendPositionToActivity{
 
     private void initializeAndSearchFragments(){
         listFragment =
-                ListFragment.newInstance(listFragmentState, addingStepForIngredients(cakeDetail.getSteps()));
+                ListFragment.newInstance(listFragmentState, cakeDetail.getSteps());
         descriptionFragment =
                 (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
     }

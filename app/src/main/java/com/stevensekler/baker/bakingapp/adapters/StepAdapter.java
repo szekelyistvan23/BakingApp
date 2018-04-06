@@ -20,11 +20,11 @@ import static com.stevensekler.baker.bakingapp.FragmentsActivity.INGREDIENTS_SHO
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder>{
 
-    private List<Step> stepArray;
+    private Step[] stepArray;
     private OnItemClickListener stepListener;
     public static final String DOT_AND_SPACE = ". ";
 
-    public StepAdapter(List<Step> stepArray, OnItemClickListener stepListener) {
+    public StepAdapter(Step[] stepArray, OnItemClickListener stepListener) {
         this.stepArray = stepArray;
         this.stepListener = stepListener;
     }
@@ -45,24 +45,24 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     @Override
     public void onBindViewHolder(@NonNull StepViewHolder holder, final int position) {
         String description;
-        if (stepArray.get(position).getShortDescription().equals(INGREDIENTS_SHORT_DESCRIPTION)){
-            description = stepArray.get(position).getShortDescription();
+        if (stepArray[position].getShortDescription().equals(INGREDIENTS_SHORT_DESCRIPTION)){
+            description = stepArray[position].getShortDescription();
         } else {
-            description = stepArray.get(position).getId() +
-                    DOT_AND_SPACE + stepArray.get(position).getShortDescription();
+            description = stepArray[position].getId() +
+                    DOT_AND_SPACE + stepArray[position].getShortDescription();
         }
         holder.shortDescription.setText(description);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stepListener.onItemClick(stepArray.get(position));
+                stepListener.onItemClick(stepArray[position]);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return stepArray.size();
+        return stepArray.length;
     }
 
     class StepViewHolder extends RecyclerView.ViewHolder{

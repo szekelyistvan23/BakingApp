@@ -38,7 +38,7 @@ public class ListFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private StepAdapter stepAdapter;
     private Unbinder unbinder;
-    private List<Step> stepsFromActivity;
+    private Step[] stepsFromActivity;
     private int position;
     private Parcelable restoreState;
     public static final String RECYCLER_VIEW_POSITION = "position";
@@ -62,8 +62,7 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         if (getArguments() != null) {
-            Step[] newSteps = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
-            stepsFromActivity = parcelableArrayToListArray(newSteps);
+            stepsFromActivity = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
             restoreState = getArguments().getParcelable(RECYCLER_VIEW_POSITION);
         }
 
@@ -93,7 +92,7 @@ public class ListFragment extends Fragment {
                     args.putParcelable(STEP_OBJECT, step);
                     args.putInt(STEP_ARRAY_SIZE, stepAdapter.getItemCount());
                     args.putInt(STEP_ARRAY_POSITION, getStepPositionFromArray(step));
-                    args.putParcelableArray(STEP_ARRAY, arrayListToStepArray(stepsFromActivity));
+                    args.putParcelableArray(STEP_ARRAY, stepsFromActivity);
 
 
                         DescriptionFragment descriptionFragment = new DescriptionFragment();
@@ -120,14 +119,6 @@ public class ListFragment extends Fragment {
         }
     }
 
-    private List<Step> parcelableArrayToListArray(Step[] steps) {
-        List<Step> result = new ArrayList<>();
-        for (int i = 0; i < steps.length; i++) {
-            result.add(steps[i]);
-        }
-        return result;
-    }
-
     private void scrollToPosition(final int position) {
             stepRecyclerView.post(new Runnable() {
                 @Override
@@ -138,20 +129,12 @@ public class ListFragment extends Fragment {
             });
     }
 
-    public static Step[] arrayListToStepArray(List<Step> steps){
-        Step[] result = new Step[steps.size()];
-        for (int i = 0; i < steps.size(); i++){
-            result[i] = steps.get(i);
-        }
-        return result;
-    }
-
-    public static ListFragment newInstance(Parcelable state, List<Step> steps) {
+    public static ListFragment newInstance(Parcelable state, Step[] steps) {
 
         Bundle args = new Bundle();
 
         args.putParcelable(RECYCLER_VIEW_POSITION, state);
-        args.putParcelableArray(CAKE_STEPS, arrayListToStepArray(steps));
+        args.putParcelableArray(CAKE_STEPS, steps);
 
         ListFragment fragment = new ListFragment();
         fragment.setArguments(args);
@@ -160,8 +143,8 @@ public class ListFragment extends Fragment {
 
     private int getStepPositionFromArray(Step step) {
         int result = 0;
-        for (int i = 0; i < stepsFromActivity.size(); i++) {
-            if (stepsFromActivity.get(i).equals(step)) {
+        for (int i = 0; i < stepsFromActivity.length; i++) {
+            if (stepsFromActivity[i].equals(step)) {
                 result = i;
                 return result;
             }

@@ -15,7 +15,7 @@ public class Cake implements Parcelable {
     private int id;
     private String name;
     private List<Ingredient> ingredients = null;
-    private List<Step> steps = null;
+    private Step[] steps = null;
     private int servings;
     private String image;
 
@@ -43,11 +43,11 @@ public class Cake implements Parcelable {
         this.ingredients = ingredients;
     }
 
-    public List<Step> getSteps() {
+    public Step[] getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setSteps(Step[] steps) {
         this.steps = steps;
     }
 
@@ -76,8 +76,8 @@ public class Cake implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.name);
-        dest.writeList(this.ingredients);
-        dest.writeList(this.steps);
+        dest.writeTypedList(this.ingredients);
+        dest.writeTypedArray(this.steps, flags);
         dest.writeInt(this.servings);
         dest.writeString(this.image);
     }
@@ -88,10 +88,8 @@ public class Cake implements Parcelable {
     protected Cake(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
-        this.ingredients = new ArrayList<Ingredient>();
-        in.readList(this.ingredients, Ingredient.class.getClassLoader());
-        this.steps = new ArrayList<Step>();
-        in.readList(this.steps, Step.class.getClassLoader());
+        this.ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        this.steps = in.createTypedArray(Step.CREATOR);
         this.servings = in.readInt();
         this.image = in.readString();
     }
