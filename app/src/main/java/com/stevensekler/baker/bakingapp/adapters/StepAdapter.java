@@ -22,7 +22,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     private List<Step> stepArray;
     private OnItemClickListener stepListener;
-    private int stepPosition;
     public static final String DOT_AND_SPACE = ". ";
 
     public StepAdapter(List<Step> stepArray, OnItemClickListener stepListener) {
@@ -45,7 +44,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull StepViewHolder holder, final int position) {
-        stepPosition = position;
         String description;
         if (stepArray.get(position).getShortDescription().equals(INGREDIENTS_SHORT_DESCRIPTION)){
             description = stepArray.get(position).getShortDescription();
@@ -75,9 +73,5 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public int getStepPosition() {
-        return stepPosition;
     }
 }
