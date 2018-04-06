@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.stevensekler.baker.bakingapp.R;
@@ -20,6 +21,8 @@ import butterknife.Unbinder;
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT_DISPLAYED;
+import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_POSITION;
+import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_SIZE;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_OBJECT;
 
 /**
@@ -28,9 +31,18 @@ import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_OBJEC
 public class DescriptionFragment extends Fragment {
     @BindView(R.id.step_description)
     TextView stepDescription;
+    @BindView(R.id.previous_button)
+    Button previousButton;
+    @BindView(R.id.next_button)
+    Button nextButton;
     private Unbinder unbinder;
     private Step savedStep;
+    private int arrayPosition;
+    private int arraySize;
+
     PassDataToActivity callback;
+
+
 
     public DescriptionFragment() {
     }
@@ -48,6 +60,14 @@ public class DescriptionFragment extends Fragment {
             savedStep = getArguments().getParcelable(STEP_OBJECT);
         }
 
+        if (getArguments().containsKey(STEP_ARRAY_POSITION)) {
+            arrayPosition = getArguments().getInt(STEP_ARRAY_POSITION);
+        }
+
+        if (getArguments().containsKey(STEP_ARRAY_SIZE)) {
+            arraySize = getArguments().getInt(STEP_ARRAY_SIZE);
+        }
+
         if (stepDescription != null && savedStep != null){
             stepDescription.setText(savedStep.getDescription());
         }
@@ -55,13 +75,26 @@ public class DescriptionFragment extends Fragment {
         if (callback != null) {
             callback.descriptionFragmentDisplayed(true);
         }
+
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
         return view;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public void onStart() {
+        super.onStart();
+
+        if (arrayPosition == 1){
+            previousButton.setVisibility(View.GONE);
+        }
+
+        if (arrayPosition == arraySize - 1){
+            nextButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -72,5 +105,11 @@ public class DescriptionFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement PassDataToActivity");
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }
