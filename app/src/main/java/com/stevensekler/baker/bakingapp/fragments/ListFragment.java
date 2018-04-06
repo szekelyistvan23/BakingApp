@@ -89,8 +89,6 @@ public class ListFragment extends Fragment {
                 @Override
                 public void onItemClick(Step step) {
                     Bundle args = new Bundle();
-                    args.putParcelable(STEP_OBJECT, step);
-                    args.putInt(STEP_ARRAY_SIZE, stepAdapter.getItemCount());
                     args.putInt(STEP_ARRAY_POSITION, getStepPositionFromArray(step));
                     args.putParcelableArray(STEP_ARRAY, stepsFromActivity);
 

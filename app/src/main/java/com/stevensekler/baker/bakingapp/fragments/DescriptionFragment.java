@@ -37,14 +37,10 @@ public class DescriptionFragment extends Fragment {
     @BindView(R.id.next_button)
     Button nextButton;
     private Unbinder unbinder;
-    private Step savedStep;
     private int arrayPosition;
-    private int arraySize;
     private Step[] steps;
 
     PassDataToActivity callback;
-
-
 
     public DescriptionFragment() {
     }
@@ -58,24 +54,17 @@ public class DescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_description, container, false);
         unbinder = ButterKnife.bind(this, view);
-        if (getArguments().containsKey(STEP_OBJECT)) {
-            savedStep = getArguments().getParcelable(STEP_OBJECT);
-        }
 
         if (getArguments().containsKey(STEP_ARRAY_POSITION)) {
             arrayPosition = getArguments().getInt(STEP_ARRAY_POSITION);
-        }
-
-        if (getArguments().containsKey(STEP_ARRAY_SIZE)) {
-            arraySize = getArguments().getInt(STEP_ARRAY_SIZE);
         }
 
         if (getArguments().containsKey(STEP_ARRAY)) {
             steps = (Step[]) getArguments().getParcelableArray(STEP_ARRAY);
         }
 
-        if (stepDescription != null && savedStep != null){
-            stepDescription.setText(savedStep.getDescription());
+        if (stepDescription != null && steps != null){
+            stepDescription.setText(steps[arrayPosition].getDescription());
         }
 
         if (callback != null) {
@@ -95,7 +84,7 @@ public class DescriptionFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (arrayPosition < arraySize-1) {
+                if (arrayPosition < steps.length - 1) {
                     arrayPosition++;
                     createNewDescriptionFragment(arrayPosition);
                 }
@@ -106,8 +95,6 @@ public class DescriptionFragment extends Fragment {
 
     private void createNewDescriptionFragment(int position){
         Bundle args = new Bundle();
-        args.putParcelable(STEP_OBJECT, steps[position]);
-        args.putInt(STEP_ARRAY_SIZE, steps.length);
         args.putInt(STEP_ARRAY_POSITION, position);
         args.putParcelableArray(STEP_ARRAY, steps);
 
@@ -129,7 +116,7 @@ public class DescriptionFragment extends Fragment {
             previousButton.setVisibility(View.GONE);
         }
 
-        if (arrayPosition == arraySize - 1){
+        if (arrayPosition == steps.length - 1){
             nextButton.setVisibility(View.GONE);
         }
     }
