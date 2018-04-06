@@ -45,6 +45,7 @@ public class ListFragment extends Fragment {
     public static final String STEP_OBJECT = "step_object";
     public static final String STEP_ARRAY_SIZE = "step_array_size";
     public static final String STEP_ARRAY_POSITION = "step_array_position";
+    public static final String STEP_ARRAY = "step_array";
     public static final String DESCRIPTION_FRAGMENT_DISPLAYED = "description_fragment_displayed";
     public static final String DESCRIPTION_FRAGMENT = "description_fragment";
     SendPositionToActivity callbackForPosition;
@@ -92,6 +93,7 @@ public class ListFragment extends Fragment {
                     args.putParcelable(STEP_OBJECT, step);
                     args.putInt(STEP_ARRAY_SIZE, stepAdapter.getItemCount());
                     args.putInt(STEP_ARRAY_POSITION, getStepPositionFromArray(step));
+                    args.putParcelableArray(STEP_ARRAY, arrayListToStepArray(stepsFromActivity));
 
 
                         DescriptionFragment descriptionFragment = new DescriptionFragment();

@@ -21,6 +21,7 @@ import butterknife.Unbinder;
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT_DISPLAYED;
+import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_POSITION;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_SIZE;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_OBJECT;
@@ -39,6 +40,7 @@ public class DescriptionFragment extends Fragment {
     private Step savedStep;
     private int arrayPosition;
     private int arraySize;
+    private Step[] steps;
 
     PassDataToActivity callback;
 
@@ -68,6 +70,10 @@ public class DescriptionFragment extends Fragment {
             arraySize = getArguments().getInt(STEP_ARRAY_SIZE);
         }
 
+        if (getArguments().containsKey(STEP_ARRAY)) {
+            steps = (Step[]) getArguments().getParcelableArray(STEP_ARRAY);
+        }
+
         if (stepDescription != null && savedStep != null){
             stepDescription.setText(savedStep.getDescription());
         }
@@ -79,16 +85,47 @@ public class DescriptionFragment extends Fragment {
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (arrayPosition > 0){
+                    arrayPosition--;
+                    createNewDescriptionFragment(arrayPosition);
+                }
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (arrayPosition < arraySize-1) {
+                    arrayPosition++;
+                    createNewDescriptionFragment(arrayPosition);
+                }
             }
         });
         return view;
+    }
+
+    private void createNewDescriptionFragment(int position){
+        Bundle args = new Bundle();
+        args.putParcelable(STEP_OBJECT, steps[position]);
+        args.putInt(STEP_ARRAY_SIZE, steps.length);
+        args.putInt(STEP_ARRAY_POSITION, position);
+        args.putParcelableArray(STEP_ARRAY, steps);
+
+
+        DescriptionFragment descriptionFragment = new DescriptionFragment();
+        descriptionFragment.setArguments(args);
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, descriptionFragment, DESCRIPTION_FRAGMENT)
+                .commit();
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        if (arrayPosition == 1){
+        if (arrayPosition == 0){
             previousButton.setVisibility(View.GONE);
         }
 
