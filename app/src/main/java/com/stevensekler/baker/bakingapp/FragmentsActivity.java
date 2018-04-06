@@ -51,7 +51,10 @@ ListFragment.SendPositionToActivity{
                 listFragmentState = bundle.getParcelable(LIST_FRAGMENT_STATE);
             }
             cakeDetail = extras.getParcelable(CAKE_OBJECT);
+            cakeDetail.setSteps(addingStepForIngredients(cakeDetail.getSteps()));
             setTitle(cakeDetail.getName());
+
+
             displayListFragment();
             displayDescriptionFragment();
         } else {
@@ -62,7 +65,7 @@ ListFragment.SendPositionToActivity{
 
     private void displayListFragment(){
         Bundle args = new Bundle();
-        args.putParcelableArray(CAKE_STEPS, addingStepForIngredients(cakeDetail.getSteps()));
+        args.putParcelableArray(CAKE_STEPS, cakeDetail.getSteps());
 
         ListFragment searchListFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag(STEPS_LIST);
 
