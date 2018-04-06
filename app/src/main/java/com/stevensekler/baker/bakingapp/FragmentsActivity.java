@@ -130,7 +130,8 @@ ListFragment.SendPositionToActivity{
     }
 
     private void initializeAndSearchFragments(){
-        listFragment = ListFragment.newInstance(listFragmentState, cakeDetail.getSteps());
+        listFragment =
+                ListFragment.newInstance(listFragmentState, addingStepForIngredients(cakeDetail.getSteps()));
         descriptionFragment =
                 (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
     }
