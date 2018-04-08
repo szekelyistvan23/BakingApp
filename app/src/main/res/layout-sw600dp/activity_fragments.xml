@@ -7,8 +7,8 @@
     android:orientation="horizontal"
     tools:context=".FragmentsActivity">
 
-    <fragment
-        android:id="@+id/master_list_fragment"
+    <FrameLayout
+        android:id="@+id/master_list"
         android:name="com.stevensekler.baker.bakingapp.fragments.ListFragment"
         android:layout_width="300dp"
         android:layout_height="match_parent"/>
@@ -19,7 +19,7 @@
         android:background="@android:color/darker_gray"/>
 
     <FrameLayout
-        android:id="@+id/master_detail_fragment"
+        android:id="@+id/master_description"
         android:name="com.stevensekler.baker.bakingapp.fragments.DescriptionFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"/>

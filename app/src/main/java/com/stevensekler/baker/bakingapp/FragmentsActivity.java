@@ -6,6 +6,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.stevensekler.baker.bakingapp.fragments.DescriptionFragment;
@@ -15,6 +16,9 @@ import com.stevensekler.baker.bakingapp.model.Step;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
@@ -34,13 +38,22 @@ ListFragment.SendPositionToActivity{
     private ListFragment listFragment;
     private DescriptionFragment descriptionFragment;
     private boolean twoPane;
+    @BindView(R.id.master_detail_layout)
+    LinearLayout masterDetailLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments);
 
-        extractBundleData(savedInstanceState);
+        ButterKnife.bind(this);
+
+        if (masterDetailLayout !=null){
+            twoPane = true;
+        } else {
+            twoPane = false;
+            extractBundleData(savedInstanceState);
+        }
     }
 
     private void extractBundleData(Bundle bundle){
