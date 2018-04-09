@@ -139,6 +139,15 @@ public class ListFragment extends Fragment {
             });
             stepRecyclerView.setAdapter(stepAdapter);
         }
+
+        if (twoPane){
+            stepRecyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    stepRecyclerView.findViewHolderForAdapterPosition(0).itemView.performClick();
+                }
+            },1);
+        }
     }
 
     @Override

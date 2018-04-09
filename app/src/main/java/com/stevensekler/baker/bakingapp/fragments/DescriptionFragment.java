@@ -39,6 +39,7 @@ public class DescriptionFragment extends Fragment {
     private Unbinder unbinder;
     private int arrayPosition;
     private Step[] steps;
+    private boolean twoPane;
 
     PassDataToActivity callback;
 
@@ -90,6 +91,12 @@ public class DescriptionFragment extends Fragment {
                 }
             }
         });
+
+        if (getActivity().findViewById(R.id.master_detail_layout) != null){
+            twoPane = true;
+        } else {
+            twoPane = false;
+        }
         return view;
     }
 
@@ -120,11 +127,16 @@ public class DescriptionFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (arrayPosition == 0){
-            previousButton.setVisibility(View.GONE);
-        }
+        if (!twoPane) {
+            if (arrayPosition == 0) {
+                previousButton.setVisibility(View.GONE);
+            }
 
-        if (arrayPosition == steps.length - 1){
+            if (arrayPosition == steps.length - 1) {
+                nextButton.setVisibility(View.GONE);
+            }
+        } else {
+            previousButton.setVisibility(View.GONE);
             nextButton.setVisibility(View.GONE);
         }
     }
