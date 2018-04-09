@@ -116,7 +116,7 @@ public class ListFragment extends Fragment {
 
                         DescriptionFragment descriptionFragment = new DescriptionFragment();
                         descriptionFragment.setArguments(args);
-//                      If two pane mode.
+//                      Two pane mode.
                         if (searchDescriptionFragment != null && twoPane) {
 
                             getActivity().getSupportFragmentManager()
@@ -144,22 +144,9 @@ public class ListFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            scrollToPosition(savedInstanceState.getInt(RECYCLER_VIEW_POSITION));
-        }
         if (restoreState !=  null){
             layoutManager.onRestoreInstanceState(restoreState);
         }
-    }
-
-    private void scrollToPosition(final int position) {
-            stepRecyclerView.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (layoutManager != null)
-                        layoutManager.scrollToPosition(position);
-                }
-            });
     }
 
     public static ListFragment newInstance(Parcelable state, Step[] steps) {
@@ -192,12 +179,6 @@ public class ListFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement SendPositionToActivity");
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(RECYCLER_VIEW_POSITION,layoutManager.findFirstCompletelyVisibleItemPosition());
     }
 
     @Override
