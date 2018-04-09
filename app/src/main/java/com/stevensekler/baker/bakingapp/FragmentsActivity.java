@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Optional;
 
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
@@ -38,25 +39,22 @@ ListFragment.SendPositionToActivity{
     private ListFragment listFragment;
     private DescriptionFragment descriptionFragment;
     private boolean twoPane;
-    @BindView(R.id.master_detail_layout)
-    LinearLayout masterDetailLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments);
 
-        ButterKnife.bind(this);
-
-        if (masterDetailLayout !=null){
+        if (findViewById(R.id.master_detail_layout) !=null){
             twoPane = true;
+            extractBundleData(savedInstanceState, R.id.master_list, R.id.master_description);
         } else {
             twoPane = false;
-            extractBundleData(savedInstanceState);
+            extractBundleData(savedInstanceState, R.id.fragment_container, R.id.fragment_container);
         }
     }
 
-    private void extractBundleData(Bundle bundle){
+    private void extractBundleData(Bundle bundle, int listFragmentContainer, int descriptionFragmentContainer){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (bundle != null) {
@@ -68,15 +66,16 @@ ListFragment.SendPositionToActivity{
             setTitle(cakeDetail.getName());
 
 
-            displayListFragment();
-            displayDescriptionFragment();
+            displayListFragment(listFragmentContainer);
+            displayDescriptionFragment(descriptionFragmentContainer);
         } else {
             finish();
             Toast.makeText(FragmentsActivity.this, R.string.no_data, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void displayListFragment(){
+    private void displayListFragment(int descriptionFragmentContainer){
+        ButterKnife.bind(this);
         Bundle args = new Bundle();
         args.putParcelableArray(CAKE_STEPS, cakeDetail.getSteps());
 
@@ -85,7 +84,7 @@ ListFragment.SendPositionToActivity{
         if (searchListFragment != null){
             getSupportFragmentManager()
             .beginTransaction()
-            .replace(R.id.fragment_container, searchListFragment, STEPS_LIST)
+            .replace(descriptionFragmentContainer, searchListFragment, STEPS_LIST)
             .commit();
         } else {
 
@@ -94,7 +93,7 @@ ListFragment.SendPositionToActivity{
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_container, listFragment, STEPS_LIST)
+                    .add(descriptionFragmentContainer, listFragment, STEPS_LIST)
                     .commit();
         }
     }
@@ -122,7 +121,7 @@ ListFragment.SendPositionToActivity{
         return stringBuilder.toString();
     }
 
-    private void displayDescriptionFragment(){
+    private void displayDescriptionFragment(int descriptionFragmentContainer){
         if (isDescriptionFragmentDisplayed) {
 
             DescriptionFragment searchDescriptionFragment =
@@ -132,7 +131,7 @@ ListFragment.SendPositionToActivity{
             if (searchDescriptionFragment != null) {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, searchDescriptionFragment, DESCRIPTION_FRAGMENT)
+                        .replace(descriptionFragmentContainer, searchDescriptionFragment, DESCRIPTION_FRAGMENT)
                         .commit();
             }
         }
@@ -146,9 +145,16 @@ ListFragment.SendPositionToActivity{
     }
 
     private void addNewListFragment(){
+        int container = 0;
+
+        if (!twoPane){
+            container = R.id.fragment_container;
+        } else {
+            container = R.id.master_list;
+        }
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, listFragment, STEPS_LIST)
+                .replace(container, listFragment, STEPS_LIST)
                 .commit();
         isDescriptionFragmentDisplayed = false;
     }
@@ -174,7 +180,7 @@ ListFragment.SendPositionToActivity{
     public void onBackPressed() {
         initializeAndSearchFragments();
 
-        if (descriptionFragment != null && descriptionFragment.isVisible()){
+        if (descriptionFragment != null && descriptionFragment.isVisible() && !twoPane){
         addNewListFragment();
             isDescriptionFragmentDisplayed = false;
         } else {
@@ -188,7 +194,7 @@ ListFragment.SendPositionToActivity{
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (descriptionFragment != null && descriptionFragment.isVisible()){
+                if (descriptionFragment != null && descriptionFragment.isVisible() && !twoPane){
                 addNewListFragment();
                 } else {
                     NavUtils.navigateUpFromSameTask(this);

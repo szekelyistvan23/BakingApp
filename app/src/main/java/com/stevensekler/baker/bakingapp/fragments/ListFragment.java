@@ -80,6 +80,16 @@ public class ListFragment extends Fragment {
         // Butterknife is distributed under Apache License, Version 2.0
         unbinder = ButterKnife.bind(this, view);
 
+        int result = 0;
+
+        if (getActivity().findViewById(R.id.master_detail_layout) != null){
+            result = R.id.master_description;
+        } else {
+            result = R.id.fragment_container;
+        }
+
+        final int container = result;
+
         stepRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         stepRecyclerView.setLayoutManager(layoutManager);
@@ -92,14 +102,26 @@ public class ListFragment extends Fragment {
                     args.putInt(STEP_ARRAY_POSITION, getStepPositionFromArray(step));
                     args.putParcelableArray(STEP_ARRAY, stepsFromActivity);
 
+                        DescriptionFragment searchDescriptionFragment =
+                                (DescriptionFragment) getActivity()
+                                        .getSupportFragmentManager()
+                                        .findFragmentByTag(DESCRIPTION_FRAGMENT);
 
                         DescriptionFragment descriptionFragment = new DescriptionFragment();
                         descriptionFragment.setArguments(args);
 
-                        getActivity().getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragment_container, descriptionFragment, DESCRIPTION_FRAGMENT)
-                                .commit();
+                        if (searchDescriptionFragment != null) {
+
+                            getActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(container, descriptionFragment, DESCRIPTION_FRAGMENT)
+                                    .commit();
+                        } else {
+                            getActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .add(container, descriptionFragment, DESCRIPTION_FRAGMENT)
+                                    .commit();
+                        }
                 }
             });
             stepRecyclerView.setAdapter(stepAdapter);

@@ -21,6 +21,6 @@
     <FrameLayout
         android:id="@+id/master_description"
         android:name="com.stevensekler.baker.bakingapp.fragments.DescriptionFragment"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="match_parent"/>
 </LinearLayout>

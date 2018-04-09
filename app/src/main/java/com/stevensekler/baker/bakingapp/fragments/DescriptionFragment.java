@@ -98,13 +98,21 @@ public class DescriptionFragment extends Fragment {
         args.putInt(STEP_ARRAY_POSITION, position);
         args.putParcelableArray(STEP_ARRAY, steps);
 
+        int container = 0;
+
+        if (getActivity().findViewById(R.id.master_detail_layout) != null){
+            container = R.id.master_description;
+        } else {
+            container = R.id.fragment_container;
+        }
 
         DescriptionFragment descriptionFragment = new DescriptionFragment();
         descriptionFragment.setArguments(args);
 
+
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, descriptionFragment, DESCRIPTION_FRAGMENT)
+                .replace(container, descriptionFragment, DESCRIPTION_FRAGMENT)
                 .commit();
     }
 
