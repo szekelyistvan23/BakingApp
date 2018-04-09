@@ -68,7 +68,7 @@ public class ListFragment extends Fragment {
         }
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-
+        /* TODO Try to solve this with Butterknife */
         if (getActivity().findViewById(R.id.master_detail_layout) != null) {
             twoPane = true;
         } else {
