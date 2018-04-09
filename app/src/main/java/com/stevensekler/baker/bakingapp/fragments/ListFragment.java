@@ -41,6 +41,7 @@ public class ListFragment extends Fragment {
     private Step[] stepsFromActivity;
     private int position;
     private Parcelable restoreState;
+    private boolean twoPane;
     public static final String RECYCLER_VIEW_POSITION = "position";
     public static final String STEP_OBJECT = "step_object";
     public static final String STEP_ARRAY_SIZE = "step_array_size";
@@ -68,6 +69,12 @@ public class ListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
+        if (getActivity().findViewById(R.id.master_detail_layout) != null) {
+            twoPane = true;
+        } else {
+            twoPane = false;
+        }
+
         setupStepRecyclerView(view, savedInstanceState);
 
         return view;
@@ -82,7 +89,7 @@ public class ListFragment extends Fragment {
 
         int result = 0;
 
-        if (getActivity().findViewById(R.id.master_detail_layout) != null){
+        if (twoPane){
             result = R.id.master_description;
         } else {
             result = R.id.fragment_container;
@@ -109,19 +116,25 @@ public class ListFragment extends Fragment {
 
                         DescriptionFragment descriptionFragment = new DescriptionFragment();
                         descriptionFragment.setArguments(args);
-
-                        if (searchDescriptionFragment != null) {
+//                      If two pane mode.
+                        if (searchDescriptionFragment != null && twoPane) {
 
                             getActivity().getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(container, descriptionFragment, DESCRIPTION_FRAGMENT)
                                     .commit();
-                        } else {
+                        }
+                        if (searchDescriptionFragment == null && twoPane){
                             getActivity().getSupportFragmentManager()
                                     .beginTransaction()
                                     .add(container, descriptionFragment, DESCRIPTION_FRAGMENT)
                                     .commit();
                         }
+//                      One pane mode.
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(container, descriptionFragment, DESCRIPTION_FRAGMENT)
+                            .commit();
                 }
             });
             stepRecyclerView.setAdapter(stepAdapter);
