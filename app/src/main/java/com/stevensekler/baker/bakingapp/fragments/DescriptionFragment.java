@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -192,6 +193,16 @@ public class DescriptionFragment extends Fragment {
             callback = (PassDataToActivity) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement PassDataToActivity");
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            playbackPosition = savedInstanceState.getLong(PLAYBACK_POSITION);
+            currentWindow = savedInstanceState.getInt(CURRENT_WINDOW_INDEX);
+            playWhenReady = savedInstanceState.getBoolean(PLAY_WHEN_READY);
         }
     }
 
