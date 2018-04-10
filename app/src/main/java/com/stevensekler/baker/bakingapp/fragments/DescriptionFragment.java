@@ -65,6 +65,9 @@ public class DescriptionFragment extends Fragment {
     private Step[] steps;
     private boolean twoPane;
     PassDataToActivity callback;
+    public static final String PLAY_WHEN_READY = "play_when_ready";
+    public static final String CURRENT_WINDOW_INDEX = "current_window_index";
+    public static final String PLAYBACK_POSITION = "playback_position";
 
     public DescriptionFragment() {
     }
@@ -236,6 +239,14 @@ public class DescriptionFragment extends Fragment {
         if (Util.SDK_INT > 23) {
             releasePlayer();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(PLAYBACK_POSITION, playbackPosition);
+        outState.putInt(CURRENT_WINDOW_INDEX, currentWindow);
+        outState.putBoolean(PLAY_WHEN_READY, playWhenReady);
     }
 
     @Override
