@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Szekely Istvan on 24.03.2018.
+ * Stores the ingredients of a cake.
  */
 
 public class Ingredient implements Parcelable {
@@ -69,7 +69,7 @@ public class Ingredient implements Parcelable {
             return new Ingredient[size];
         }
     };
-
+    /** Custom method to display the ingredients.*/
     @Override
     public String toString() {
         int result = 0;

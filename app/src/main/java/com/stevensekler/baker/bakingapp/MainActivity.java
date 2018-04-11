@@ -1,5 +1,9 @@
 package com.stevensekler.baker.bakingapp;
 
+/**
+ * Downloads data if isn't available in SharedPreferences and displays the cake name's in a RecyclerView,
+ */
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -102,23 +106,38 @@ public class MainActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(adapter);
     }
+    /** Serializes an array to be saved with Shared Preferences
+     *  @param cakes Cake array to be serialized
+     *  @return Json array
+     * */
     private String serializeCakeArray(List<Cake> cakes){
         Gson gson = new Gson();
         return gson.toJson(cakes);
     }
 
+    /** Transforms Json to Cake array
+     *  @param string Json data
+     *  @return Cake array will be used in the app without downloading data from the Internet,
+     *          except the videos
+     *  */
     private List<Cake> deserializeJson(String string){
         Gson gson = new Gson();
         Type cakeType = new TypeToken<List<Cake>>(){}.getType();
         return gson.fromJson(string, cakeType);
     }
-
+    /** Saves Json to Shared Preferences
+     *  @param string Json data
+     * */
     private void saveSharedPreferences(String string){
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(JSON_DATA, string);
         editor.apply();
     }
+    /** Reads data from Shared Preferences
+     *  @return false, if there is no saved data, this happens at the first run
+     *          true, if Json data is saved and changes the adapter data
+     *  */
     private boolean readSharedPreferences(){
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         String jsonData = sharedPreferences.getString(JSON_DATA, null);

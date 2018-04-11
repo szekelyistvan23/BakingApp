@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Szekely Istvan on 24.03.2018.
+ * Stores everything about a cake.
  */
 
 public class Cake implements Parcelable {
