@@ -165,7 +165,6 @@ public class DescriptionFragment extends Fragment {
         player.setPlayWhenReady(playWhenReady);
         player.seekTo(playbackPosition);
 
-        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         DataSource.Factory dataSourceFactory =
                 new DefaultDataSourceFactory(getActivity(),
                 Util.getUserAgent(getActivity(), "bakingapp"));
@@ -176,7 +175,7 @@ public class DescriptionFragment extends Fragment {
             Uri uri = Uri.parse(videoUrl);
 
             MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-            player.prepare(mediaSource, true, false);
+            player.prepare(mediaSource, false, false);
         }
     }
 
