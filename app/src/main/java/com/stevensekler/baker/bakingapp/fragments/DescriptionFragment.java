@@ -106,6 +106,7 @@ public class DescriptionFragment extends Fragment {
                 if (arrayPosition > 0){
                     arrayPosition--;
                     createNewDescriptionFragment(arrayPosition);
+                    releasePlayer();
                 }
             }
         });
@@ -116,6 +117,7 @@ public class DescriptionFragment extends Fragment {
                 if (arrayPosition < steps.length - 1) {
                     arrayPosition++;
                     createNewDescriptionFragment(arrayPosition);
+                    releasePlayer();
                 }
             }
         });
@@ -154,12 +156,13 @@ public class DescriptionFragment extends Fragment {
     private void initializePlayer() {
         player = ExoPlayerFactory.newSimpleInstance(
                 new DefaultRenderersFactory(getActivity()),
-                new DefaultTrackSelector(), new DefaultLoadControl());
+                new DefaultTrackSelector(),
+                new DefaultLoadControl());
 
         exoPlayerView.setPlayer(player);
 
         player.setPlayWhenReady(playWhenReady);
-        player.seekTo(currentWindow, playbackPosition);
+        player.seekTo(playbackPosition);
 
         DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         DataSource.Factory dataSourceFactory =
