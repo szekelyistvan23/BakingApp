@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/master_detail_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/master_detail_layout"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     tools:context=".FragmentsActivity">
 
     <FrameLayout
         android:id="@+id/master_list"
         android:name="com.stevensekler.baker.bakingapp.fragments.ListFragment"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"/>
-
-    <View
-        android:layout_width="1dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"/>
+        app:layout_constraintEnd_toStartOf="@+id/master_description"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="1"/>
 
     <FrameLayout
         android:id="@+id/master_description"
         android:name="com.stevensekler.baker.bakingapp.fragments.DescriptionFragment"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/master_list"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="2"/>
+</android.support.constraint.ConstraintLayout>
