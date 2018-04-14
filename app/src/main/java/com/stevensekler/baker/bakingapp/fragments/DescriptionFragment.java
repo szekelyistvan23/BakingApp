@@ -61,7 +61,6 @@ public class DescriptionFragment extends Fragment {
      * */
     private SimpleExoPlayer player;
     private boolean playWhenReady;
-    private int currentWindow;
     private long playbackPosition;
     private Unbinder unbinder;
     private int arrayPosition;
@@ -69,7 +68,6 @@ public class DescriptionFragment extends Fragment {
     private boolean twoPane;
     PassDataToActivity callback;
     public static final String PLAY_WHEN_READY = "play_when_ready";
-    public static final String CURRENT_WINDOW_INDEX = "current_window_index";
     public static final String PLAYBACK_POSITION = "playback_position";
 
     public DescriptionFragment() {
@@ -183,10 +181,17 @@ public class DescriptionFragment extends Fragment {
     private void releasePlayer(){
         if (player != null) {
             playbackPosition = player.getCurrentPosition();
-            currentWindow = player.getCurrentWindowIndex();
             playWhenReady = player.getPlayWhenReady();
             player.release();
             player = null;
+        }
+    }
+
+
+    private void getPLayerPositionValues(){
+        if (player != null) {
+            playbackPosition = player.getCurrentPosition();
+            playWhenReady = player.getPlayWhenReady();
         }
     }
 
@@ -214,7 +219,6 @@ public class DescriptionFragment extends Fragment {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null){
             playbackPosition = savedInstanceState.getLong(PLAYBACK_POSITION);
-            currentWindow = savedInstanceState.getInt(CURRENT_WINDOW_INDEX);
             playWhenReady = savedInstanceState.getBoolean(PLAY_WHEN_READY);
         }
     }
@@ -256,24 +260,24 @@ public class DescriptionFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-//        if (Util.SDK_INT <= 23) {
+        getPLayerPositionValues();
+        if (Util.SDK_INT <= 23) {
             releasePlayer();
-//        }
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-//        if (Util.SDK_INT > 23) {
-//            releasePlayer();
-//        }
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(PLAYBACK_POSITION, playbackPosition);
-        outState.putInt(CURRENT_WINDOW_INDEX, currentWindow);
         outState.putBoolean(PLAY_WHEN_READY, playWhenReady);
     }
 
