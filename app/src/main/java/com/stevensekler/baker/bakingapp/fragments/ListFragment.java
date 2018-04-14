@@ -140,7 +140,7 @@ public class ListFragment extends Fragment {
             stepRecyclerView.setAdapter(stepAdapter);
         }
 
-        if (twoPane){
+        if (twoPane && state == null){
             stepRecyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
