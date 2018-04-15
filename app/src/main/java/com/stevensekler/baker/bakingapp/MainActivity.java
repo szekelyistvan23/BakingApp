@@ -7,6 +7,7 @@ package com.stevensekler.baker.bakingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.stevensekler.baker.bakingapp.adapters.CakeAdapter;
 import com.stevensekler.baker.bakingapp.model.Cake;
 import com.stevensekler.baker.bakingapp.utils.InternetClient;
+import com.stevensekler.baker.bakingapp.utils.Methods;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, calculateSpanCount());
         recyclerView.setLayoutManager(layoutManager);
 //        Based on: https://antonioleiva.com/recyclerview-listener/
         adapter = new CakeAdapter(new ArrayList<Cake>(), new CakeAdapter.OnItemClickListener() {
@@ -148,6 +150,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private int calculateSpanCount(){
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (Methods.isTablet(MainActivity.this) && orientation == Configuration.ORIENTATION_LANDSCAPE){
+            return 2;
+        } else  {
+            return 1;
         }
     }
 }

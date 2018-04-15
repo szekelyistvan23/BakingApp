@@ -1,5 +1,7 @@
 package com.stevensekler.baker.bakingapp.utils;
 
+import android.content.Context;
+
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.model.Cake;
 
@@ -29,5 +31,13 @@ public class Methods {
                 break;
         }
         return result;
+    }
+    public static boolean isTablet(Context context){
+        boolean result = context.getResources().getBoolean(R.bool.isTablet);
+        if (result){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
