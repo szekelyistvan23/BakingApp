@@ -166,7 +166,7 @@ public class DescriptionFragment extends Fragment {
 
         DataSource.Factory dataSourceFactory =
                 new DefaultDataSourceFactory(getActivity(),
-                Util.getUserAgent(getActivity(), "bakingapp"));
+                Util.getUserAgent(getActivity(), getResources().getResourceName(R.string.app_name)));
 
         String videoUrl = steps[arrayPosition].getVideoURL();
 
