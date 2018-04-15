@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -42,6 +43,10 @@ import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_POSITION;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_SIZE;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_OBJECT;
+import static com.stevensekler.baker.bakingapp.utils.Methods.BROWNIES;
+import static com.stevensekler.baker.bakingapp.utils.Methods.CHEESECAKE;
+import static com.stevensekler.baker.bakingapp.utils.Methods.NUTELLA_PIE;
+import static com.stevensekler.baker.bakingapp.utils.Methods.YELLOW_CAKE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +58,8 @@ public class DescriptionFragment extends Fragment {
     Button previousButton;
     @BindView(R.id.next_button)
     Button nextButton;
+    @BindView(R.id.error_image)
+    ImageView errorImage;
     @BindView(R.id.place_of_video)
     PlayerView exoPlayerView;
     /** ExoPlayer implementation based on Google Codelab and ExoPlayer's Developer guide:
@@ -172,9 +179,12 @@ public class DescriptionFragment extends Fragment {
 
         if (steps[arrayPosition] != null && videoUrl != null) {
             Uri uri = Uri.parse(videoUrl);
-
-            MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-            player.prepare(mediaSource, false, false);
+            if (!uri.toString().equals("")) {
+                MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+                player.prepare(mediaSource, false, false);
+            } else{
+                displayImage();
+            }
         }
     }
 
@@ -204,6 +214,28 @@ public class DescriptionFragment extends Fragment {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
+    private void displayImage(){
+        exoPlayerView.setVisibility(View.GONE);
+        String title = (String) getActivity().getTitle();
+        int titleId = 0;
+        switch (title){
+            case NUTELLA_PIE:
+                titleId = R.drawable.nutellapie;
+                break;
+            case BROWNIES:
+                titleId = R.drawable.brownie;
+                break;
+            case YELLOW_CAKE:
+                titleId = R.drawable.yellowcake;
+                break;
+            case CHEESECAKE:
+                titleId = R.drawable.cheesecake;
+                break;
+        }
+        errorImage.setImageResource(titleId);
+        errorImage.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -231,6 +263,10 @@ public class DescriptionFragment extends Fragment {
             initializePlayer();
         }
 
+        if (twoPane && arrayPosition == 0){
+            displayImage();
+        }
+
         if (!twoPane) {
             if (arrayPosition == 0) {
                 previousButton.setVisibility(View.GONE);
@@ -242,10 +278,6 @@ public class DescriptionFragment extends Fragment {
         } else {
             previousButton.setVisibility(View.GONE);
             nextButton.setVisibility(View.GONE);
-        }
-
-        if (twoPane && arrayPosition == 0){
-            exoPlayerView.setVisibility(View.GONE);
         }
     }
 
