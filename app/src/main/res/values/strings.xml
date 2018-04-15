@@ -6,4 +6,6 @@
     <string name="no_data">No available data!</string>
     <string name="cakes_title">Cakes</string>
     <string name="no_internet">No Internet connection!</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
