@@ -5,48 +5,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/cake_rv_background"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp">
 
     <ImageView
-        android:id="@+id/cakes_image"
-        android:layout_width="91dp"
-        android:layout_height="63dp"
+        android:id="@+id/cake_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/cakes_image"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cakes" />
+        app:srcCompat="@drawable/placeholder" />
 
     <TextView
         android:id="@+id/cake_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:textSize="35sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/cake_image"
+        app:layout_constraintStart_toStartOf="@+id/cake_image"
         tools:text="@string/cakes_name" />
 
-    <TextView
-        android:id="@+id/cake_ingredients"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cakes_image"
-        app:layout_constraintTop_toBottomOf="@+id/cake_name"
-        tools:text="@string/ingredients" />
 </android.support.constraint.ConstraintLayout>

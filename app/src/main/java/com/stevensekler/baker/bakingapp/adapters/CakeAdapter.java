@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.model.Cake;
+import com.stevensekler.baker.bakingapp.utils.Methods;
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.CakeViewHolder
     @Override
     public void onBindViewHolder(final CakeAdapter.CakeViewHolder holder, int position) {
         holder.cakeName.setText(cakeArray.get(position).getName());
-        holder.cakeIngredients.setText(extractIngredients(cakeArray.get(position)));
+        holder.cakeImages.setImageResource(Methods.selectImage(cakeArray, position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -58,23 +60,12 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.CakeViewHolder
         notifyDataSetChanged();
     }
 
-    /** Retrieves the Ingredients from a Cake object to be displayed in the RecyclerView.*/
-    private String extractIngredients (Cake cake){
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < cake.getIngredients().size(); i++){
-            result.append(cake.getIngredients().get(i).getIngredient().toLowerCase());
-            if (i < cake.getIngredients().size() - 1){
-                result.append(", ");
-            }
-        }
-        return result.toString();
-    }
 
     class CakeViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.cake_name)
         TextView cakeName;
-        @BindView(R.id.cake_ingredients)
-        TextView cakeIngredients;
+        @BindView(R.id.cake_image)
+        ImageView cakeImages;
 
         public CakeViewHolder(View itemView) {
             super(itemView);
