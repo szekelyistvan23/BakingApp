@@ -31,6 +31,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.model.Step;
+import com.stevensekler.baker.bakingapp.utils.Methods;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -217,21 +218,7 @@ public class DescriptionFragment extends Fragment {
     private void displayImage(){
         exoPlayerView.setVisibility(View.GONE);
         String title = (String) getActivity().getTitle();
-        int titleId = 0;
-        switch (title){
-            case NUTELLA_PIE:
-                titleId = R.drawable.nutellapie;
-                break;
-            case BROWNIES:
-                titleId = R.drawable.brownie;
-                break;
-            case YELLOW_CAKE:
-                titleId = R.drawable.yellowcake;
-                break;
-            case CHEESECAKE:
-                titleId = R.drawable.cheesecake;
-                break;
-        }
+        int titleId = Methods.returnCakeImageId(title);
         errorImage.setImageResource(titleId);
         errorImage.setVisibility(View.VISIBLE);
     }

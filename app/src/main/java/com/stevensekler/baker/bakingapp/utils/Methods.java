@@ -14,9 +14,21 @@ public class Methods {
     public static final String CHEESECAKE = "Cheesecake";
 
     public static int selectImage(List<Cake> cakes, int position){
-        int result = 0;
         String cake = cakes.get(position).getName();
-        switch (cake){
+        return returnCakeImageId(cake);
+    }
+    public static boolean isTablet(Context context){
+        boolean result = context.getResources().getBoolean(R.bool.isTablet);
+        if (result){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static int returnCakeImageId(String imageName){
+        int result = 0;
+        switch (imageName){
             case NUTELLA_PIE:
                 result = R.drawable.nutellapie;
                 break;
@@ -31,13 +43,5 @@ public class Methods {
                 break;
         }
         return result;
-    }
-    public static boolean isTablet(Context context){
-        boolean result = context.getResources().getBoolean(R.bool.isTablet);
-        if (result){
-            return true;
-        } else {
-            return false;
-        }
     }
 }
