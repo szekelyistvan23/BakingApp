@@ -243,6 +243,10 @@ public class DescriptionFragment extends Fragment {
             previousButton.setVisibility(View.GONE);
             nextButton.setVisibility(View.GONE);
         }
+
+        if (twoPane && arrayPosition == 0){
+            exoPlayerView.setVisibility(View.GONE);
+        }
     }
 
     @Override
