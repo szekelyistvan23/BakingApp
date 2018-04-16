@@ -18,12 +18,13 @@ public class Methods {
         return returnCakeImageId(cake);
     }
     public static boolean isTablet(Context context){
-        boolean result = context.getResources().getBoolean(R.bool.isTablet);
-        if (result){
-            return true;
-        } else {
-            return false;
+        boolean result = false;
+        try {
+            result = context.getResources().getBoolean(R.bool.isTablet);
+        } catch (RuntimeException e){
+            e.printStackTrace();
         }
+        return result;
     }
 
     public static int returnCakeImageId(String imageName){
