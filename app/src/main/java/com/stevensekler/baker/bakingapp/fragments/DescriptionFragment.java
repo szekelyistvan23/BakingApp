@@ -251,7 +251,7 @@ public class DescriptionFragment extends Fragment {
         }
 
         if (twoPane && arrayPosition == 0){
-            displayImage();
+        exoPlayerView.setVisibility(View.GONE);
         }
 
         if (!twoPane) {
