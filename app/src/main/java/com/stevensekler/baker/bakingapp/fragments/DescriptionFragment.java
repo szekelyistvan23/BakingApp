@@ -19,14 +19,11 @@ import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.stevensekler.baker.bakingapp.R;
@@ -37,17 +34,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
-import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT_DISPLAYED;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_POSITION;
-import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_SIZE;
-import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_OBJECT;
-import static com.stevensekler.baker.bakingapp.utils.Methods.BROWNIES;
-import static com.stevensekler.baker.bakingapp.utils.Methods.CHEESECAKE;
-import static com.stevensekler.baker.bakingapp.utils.Methods.NUTELLA_PIE;
-import static com.stevensekler.baker.bakingapp.utils.Methods.YELLOW_CAKE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -199,7 +188,7 @@ public class DescriptionFragment extends Fragment {
     }
 
 
-    private void getPLayerPositionValues(){
+    private void getPlayerPositionValues(){
         if (player != null) {
             playbackPosition = player.getCurrentPosition();
             playWhenReady = player.getPlayWhenReady();
@@ -250,8 +239,9 @@ public class DescriptionFragment extends Fragment {
             initializePlayer();
         }
 
-        if (twoPane && arrayPosition == 0){
+        if (arrayPosition == 0 && twoPane){
         exoPlayerView.setVisibility(View.GONE);
+        errorImage.setVisibility(View.GONE);
         }
 
         if (!twoPane) {
@@ -275,7 +265,7 @@ public class DescriptionFragment extends Fragment {
             initializePlayer();
         }
         int orientation = this.getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && !twoPane) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && !twoPane && arrayPosition != 0) {
             hideSystemUi();
         }
     }
@@ -283,7 +273,7 @@ public class DescriptionFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        getPLayerPositionValues();
+        getPlayerPositionValues();
         if (Util.SDK_INT <= 23) {
             releasePlayer();
         }

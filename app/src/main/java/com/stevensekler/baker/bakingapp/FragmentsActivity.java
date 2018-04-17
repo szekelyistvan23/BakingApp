@@ -31,6 +31,7 @@ ListFragment.SendPositionToActivity{
     public static final String STEPS_LIST = "steps_list";
     public static final int INGREDIENTS_ID = 0;
     public static final String INGREDIENTS_SHORT_DESCRIPTION = "Ingredients";
+    public static final String INGREDIENTS_NO_VIDEO = "";
     public static final String NEW_LINE = "\n";
     public static final String LIST_FRAGMENT_STATE = "list_fragment_state";
     private int recyclerViewPosition = 0;
@@ -103,6 +104,7 @@ ListFragment.SendPositionToActivity{
 
         ingredients.setId(INGREDIENTS_ID);
         ingredients.setShortDescription(INGREDIENTS_SHORT_DESCRIPTION);
+        ingredients.setVideoURL(INGREDIENTS_NO_VIDEO);
         ingredients.setDescription(makeIngredientsList());
 
         result[0] = ingredients;
