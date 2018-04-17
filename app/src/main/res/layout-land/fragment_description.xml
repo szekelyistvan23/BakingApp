@@ -50,6 +50,7 @@
         android:layout_marginStart="8dp"
         android:text="Previous"
         android:visibility="gone"
+        style="?android:attr/borderlessButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -61,6 +62,7 @@
         android:layout_marginEnd="8dp"
         android:text="Next"
         android:visibility="gone"
+        style="?android:attr/borderlessButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
