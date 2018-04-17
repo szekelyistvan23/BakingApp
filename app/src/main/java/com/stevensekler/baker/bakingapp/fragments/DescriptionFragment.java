@@ -63,6 +63,7 @@ public class DescriptionFragment extends Fragment {
     private int arrayPosition;
     private Step[] steps;
     private boolean twoPane;
+    private boolean systemUiState;
     PassDataToActivity callback;
     public static final String PLAY_WHEN_READY = "play_when_ready";
     public static final String PLAYBACK_POSITION = "playback_position";
@@ -185,6 +186,7 @@ public class DescriptionFragment extends Fragment {
             player.release();
             player = null;
         }
+        showSystemUi();
     }
 
 
@@ -194,14 +196,30 @@ public class DescriptionFragment extends Fragment {
             playWhenReady = player.getPlayWhenReady();
         }
     }
-
+    /**
+     * Based on: http://blog.grio.com/2014/02/androids-hiding-of-the-system-bar-fixed.html
+     *
+     * */
     private void hideSystemUi() {
-        exoPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        systemUiState = true;
+    }
+/**
+ * Based on: http://blog.grio.com/2014/02/androids-hiding-of-the-system-bar-fixed.html
+ *
+ * */
+
+    private void showSystemUi(){
+        if (systemUiState) {
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
     }
 
     private void displayImage(){
