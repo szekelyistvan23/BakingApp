@@ -264,11 +264,11 @@ public class DescriptionFragment extends Fragment {
 
         if (!twoPane) {
             if (arrayPosition == 0) {
-                previousButton.setVisibility(View.GONE);
+                previousButton.setVisibility(View.INVISIBLE);
             }
 
             if (arrayPosition == steps.length - 1) {
-                nextButton.setVisibility(View.GONE);
+                nextButton.setVisibility(View.INVISIBLE);
             }
         } else {
             previousButton.setVisibility(View.GONE);
@@ -283,7 +283,7 @@ public class DescriptionFragment extends Fragment {
             initializePlayer();
         }
         int orientation = this.getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && !twoPane && arrayPosition != 0) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && !twoPane) {
             hideSystemUi();
         }
     }
