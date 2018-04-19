@@ -50,4 +50,9 @@ public class MainActivityTest {
 
     }
 
+    @Test
+    public void scrollToPosition(){
+        onView(withId(R.id.cake_recycler_view)).perform(RecyclerViewActions.scrollToPosition(3));
+    }
+
 }
