@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.model.Step;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

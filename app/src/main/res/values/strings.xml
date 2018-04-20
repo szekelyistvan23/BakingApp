@@ -9,4 +9,9 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="brownies">Brownies</string>
+    <string name="no_video">Image displayed when there is no video</string>
+    <string name="rewind">Rewind</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="fast_forward">Fast forward</string>
 </resources>

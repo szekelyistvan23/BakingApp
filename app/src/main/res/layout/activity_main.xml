@@ -8,7 +8,6 @@
     android:paddingTop="8dp"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
-    android:background="@color/colorBackground"
     tools:context="com.stevensekler.baker.bakingapp.MainActivity">
 
     <android.support.v7.widget.RecyclerView

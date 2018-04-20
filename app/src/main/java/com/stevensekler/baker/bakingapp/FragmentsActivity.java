@@ -1,12 +1,10 @@
 package com.stevensekler.baker.bakingapp;
 
-import android.os.DeadSystemException;
 import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.stevensekler.baker.bakingapp.fragments.DescriptionFragment;
@@ -14,12 +12,7 @@ import com.stevensekler.baker.bakingapp.fragments.ListFragment;
 import com.stevensekler.baker.bakingapp.model.Cake;
 import com.stevensekler.baker.bakingapp.model.Step;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 
 import static com.stevensekler.baker.bakingapp.MainActivity.CAKE_OBJECT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
