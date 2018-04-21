@@ -1,5 +1,9 @@
 package com.stevensekler.baker.bakingapp.adapters;
 
+/**
+ * Custom adapter for the RecyclerView from MainActivity.
+ */
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

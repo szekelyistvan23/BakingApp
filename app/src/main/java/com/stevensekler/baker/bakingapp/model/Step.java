@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Store the step needed to bake a cake.
+ * Stores the step needed to bake a cake.
  */
 
 public class Step implements Parcelable {

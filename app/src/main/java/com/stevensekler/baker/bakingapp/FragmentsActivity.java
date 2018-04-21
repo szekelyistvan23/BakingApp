@@ -1,6 +1,11 @@
 package com.stevensekler.baker.bakingapp;
 
-
+/**
+ *
+ * This is the base activity to display the fragments of this app. Regardless of the device's type: phone
+ * or tablet.
+ *
+ * */
 
 import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
@@ -52,7 +57,13 @@ ListFragment.SendPositionToActivity{
             extractBundleData(savedInstanceState, R.id.fragment_container, R.id.fragment_container);
         }
     }
-
+    /** Extracts data from savedInstanceState and displays ListFragment or DescriptionFragment.
+     * If the app is started for the first time and there is no Internet it will display an error
+     * message, otherwise will load data from Shared Preferences.
+     * @param bundle data from savedInstanceState
+     * @param listFragmentContainer depends on the device type
+     * @param descriptionFragmentContainer depends on the device type
+     * */
     private void extractBundleData(Bundle bundle, int listFragmentContainer, int descriptionFragmentContainer){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -72,8 +83,10 @@ ListFragment.SendPositionToActivity{
             Toast.makeText(FragmentsActivity.this, R.string.no_data, Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void displayListFragment(int descriptionFragmentContainer){
+    /** Displays a ListFragment.
+     *  @param listFragmentContainer the fragment's container, varies if the device is a phone or a tablet.
+     */
+    private void displayListFragment(int listFragmentContainer){
         ButterKnife.bind(this);
         Bundle args = new Bundle();
         args.putParcelableArray(CAKE_STEPS, cakeDetail.getSteps());
@@ -83,7 +96,7 @@ ListFragment.SendPositionToActivity{
         if (searchListFragment != null){
             getSupportFragmentManager()
             .beginTransaction()
-            .replace(descriptionFragmentContainer, searchListFragment, STEPS_LIST)
+            .replace(listFragmentContainer, searchListFragment, STEPS_LIST)
             .commit();
         } else {
 
@@ -92,10 +105,15 @@ ListFragment.SendPositionToActivity{
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(descriptionFragmentContainer, listFragment, STEPS_LIST)
+                    .add(listFragmentContainer, listFragment, STEPS_LIST)
                     .commit();
         }
     }
+
+    /** Adds a step object to the begining of the array, it is needed to display the ingredients of
+     *  a cake.
+     *  @return a Step array with the added object
+     *  */
     private Step[] addingStepForIngredients (Step[] steps){
         Step[] result = new Step[steps.length];
         Step ingredients = new Step();
@@ -111,7 +129,9 @@ ListFragment.SendPositionToActivity{
         }
         return result;
     }
-
+    /** Makes a String object, which contains the ingredients of a cake.
+     * @return the ingredients
+     * */
     private String makeIngredientsList (){
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = INITIALIZING_INT_VARIABLE; i < cakeDetail.getIngredients().size(); i++){
@@ -120,7 +140,7 @@ ListFragment.SendPositionToActivity{
         }
         return stringBuilder.toString();
     }
-
+    /** Restores the DescriptionFragment after screen rotation.*/
     private void displayDescriptionFragment(int descriptionFragmentContainer){
         if (isDescriptionFragmentDisplayed) {
 
@@ -136,14 +156,18 @@ ListFragment.SendPositionToActivity{
             }
         }
     }
-
+    /** Checks the actual state of the fragments and saves them for later use in onBackPressed
+     * and onOptionsItemSelected.
+     * */
     private void initializeAndSearchFragments(){
         listFragment =
                 ListFragment.newInstance(listFragmentState, cakeDetail.getSteps());
         descriptionFragment =
                 (DescriptionFragment) getSupportFragmentManager().findFragmentByTag(DESCRIPTION_FRAGMENT);
     }
-
+    /** Makes possible the navigation between fragments and activities in onBackPressed and
+     * onOptionsItemSelected.
+     * */
     private void addNewListFragment(){
         int container = INITIALIZING_INT_VARIABLE;
 
@@ -158,24 +182,24 @@ ListFragment.SendPositionToActivity{
                 .commit();
         isDescriptionFragmentDisplayed = false;
     }
-
+    /** Implements the interface from DescriptionFragment.*/
     @Override
     public void descriptionFragmentDisplayed(boolean state) {
         isDescriptionFragmentDisplayed = state;
     }
-
+    /** Implements the interface from ListFragment.*/
     @Override
     public void listRecyclerViewPosition(Parcelable parcelable) {
         listFragmentState = parcelable;
     }
-
+    /** Saves data in the case of a screen rotation received from the displayed fragments.*/
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(DESCRIPTION_FRAGMENT_DISPLAYED,isDescriptionFragmentDisplayed);
         outState.putParcelable(LIST_FRAGMENT_STATE, listFragmentState);
     }
-
+    /** Facilitates the navigation between fragments and activities.*/
     @Override
     public void onBackPressed() {
         initializeAndSearchFragments();
@@ -187,7 +211,7 @@ ListFragment.SendPositionToActivity{
             super.onBackPressed();
         }
     }
-
+    /** Facilitates the navigation between fragments and activities.*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         initializeAndSearchFragments();
