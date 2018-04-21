@@ -1,27 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
-
+    android:layout_margin="16dp"
+    android:layout_gravity="center_vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/configure" />
+        android:layout_margin="8dp"
+        android:text="@string/choose_a_cake"
+        android:textAllCaps="true"
+        android:textStyle="bold"/>
 
-    <EditText
-        android:id="@+id/cake_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text" />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Button
+        <RadioButton
+            android:id="@+id/radio_button_nutella_pie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nutella_pie"
+            android:layout_marginStart="64dp"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/radio_button_brownies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/brownies"
+            android:layout_marginStart="64dp"
+            android:checked="false"/>
+
+        <RadioButton
+            android:id="@+id/radio_button_yellow_cake"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/yellow_cake"
+            android:layout_marginStart="64dp"
+            android:checked="false"/>
+
+        <RadioButton
+            android:id="@+id/radio_button_cheesecake"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cheesecake"
+            android:layout_marginStart="64dp"
+            android:checked="false"/>
+        </RadioGroup>
+
+        <Button
         android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_widget" />
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:text="@string/display_ingredients"
+        android:background="@color/colorPrimaryDark"/>
+    </LinearLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>

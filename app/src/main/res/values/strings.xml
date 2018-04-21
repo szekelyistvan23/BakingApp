@@ -10,7 +10,10 @@
     <string name="appwidget_cake_ingredients">Cake ingredients</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
+    <string name="nutella_pie">Nutella pie</string>
     <string name="brownies">Brownies</string>
+    <string name="yellow_cake">Yellow cake</string>
+    <string name="cheesecake">Cheesecake</string>
     <string name="no_video">Image displayed when there is no video</string>
     <string name="rewind">Rewind</string>
     <string name="play">Play</string>
@@ -25,7 +28,7 @@
 140 G all purpose flour\n
 40 G cocoa powder\n
 1.5 TSP salt\n
-350 G semisweet chocolate chips\n
+350 G semisweet chocolate chips
 </string>
     <string name="nutella_pie_ingredients">2 CUP Graham Cracker crumbs\n
 6 TBLSP unsalted butter, melted\n
@@ -35,7 +38,7 @@
 1 K Nutella or other chocolate-hazelnut spread\n
 500 G Mascapone Cheese(room temperature)\n
 1 CUP heavy cream(cold)\n
-4 OZ cream cheese(softened)\n
+4 OZ cream cheese(softened)
 </string>
     <string name="yellow_cake_ingredients">400 G sifted cake flour\n
 700 G granulated sugar\n
@@ -46,7 +49,7 @@
 323 G whole milk\n
 961 G unsalted butter, softened and cut into 1 in. cubes\n
 6 UNIT egg whites\n
-283 G melted and cooled bittersweet or semisweet chocolate\n
+283 G melted and cooled bittersweet or semisweet chocolate
 </string>
     <string name="cheesecake_ingredients">2 CUP Graham Cracker crumbs\n
 6 TBLSP unsalted butter, melted\n
@@ -56,7 +59,8 @@
 680 G cream cheese, softened\n
 3 UNIT large whole eggs\n
 2 UNIT large egg yolks\n
-250 G heavy cream\n
+250 G heavy cream
 </string>
-    <string name="yellow_cake">Yellow cake</string>
+    <string name="choose_a_cake">Choose a cake</string>
+    <string name="display_ingredients">Display ingredients</string>
 </resources>
