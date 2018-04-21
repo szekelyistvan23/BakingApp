@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
     public static final String CAKE_OBJECT = "cake_object";
     public static final String JSON_DATA = "json_data";
+    public static final int SPAN_COUNT_ONE = 1;
+    public static final int SPAN_COUNT_TWO = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,9 +158,9 @@ public class MainActivity extends AppCompatActivity {
     private int calculateSpanCount(){
         int orientation = this.getResources().getConfiguration().orientation;
         if (Methods.isTablet(MainActivity.this) && orientation == Configuration.ORIENTATION_LANDSCAPE){
-            return 2;
+            return SPAN_COUNT_TWO;
         } else  {
-            return 1;
+            return SPAN_COUNT_ONE;
         }
     }
 }

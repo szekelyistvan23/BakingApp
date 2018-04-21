@@ -27,6 +27,7 @@ ListFragment.SendPositionToActivity{
     public static final String INGREDIENTS_NO_VIDEO = "";
     public static final String NEW_LINE = "\n";
     public static final String LIST_FRAGMENT_STATE = "list_fragment_state";
+    public static final String DESCRIPTION_FRAGMENT_DISPLAYED ="description_fragment_displayed";
     private int recyclerViewPosition = 0;
     private boolean isDescriptionFragmentDisplayed;
     private Parcelable listFragmentState;
@@ -52,7 +53,7 @@ ListFragment.SendPositionToActivity{
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (bundle != null) {
-                isDescriptionFragmentDisplayed = bundle.getBoolean("STATE");
+                isDescriptionFragmentDisplayed = bundle.getBoolean(DESCRIPTION_FRAGMENT_DISPLAYED);
                 listFragmentState = bundle.getParcelable(LIST_FRAGMENT_STATE);
             }
             cakeDetail = extras.getParcelable(CAKE_OBJECT);
@@ -167,7 +168,7 @@ ListFragment.SendPositionToActivity{
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("STATE",isDescriptionFragmentDisplayed);
+        outState.putBoolean(DESCRIPTION_FRAGMENT_DISPLAYED,isDescriptionFragmentDisplayed);
         outState.putParcelable(LIST_FRAGMENT_STATE, listFragmentState);
     }
 

@@ -22,6 +22,8 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
+    public static final int BROWNIES_POSITION = 1;
+    public static final int CHEESECAKE_POSITION = 3;
     @Rule
     public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 //    Based on : https://github.com/chiuki/espresso-samples
@@ -34,7 +36,7 @@ public class MainActivityTest {
     @Test
     public void checkCakeName(){
         onView(withId(R.id.cake_recycler_view))
-                .perform(actionOnItemAtPosition(1, click()));
+                .perform(actionOnItemAtPosition(BROWNIES_POSITION, click()));
 
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class))))
                 .check(matches(withText(R.string.brownies)));
@@ -43,7 +45,7 @@ public class MainActivityTest {
 
     @Test
     public void scrollToPosition(){
-        onView(withId(R.id.cake_recycler_view)).perform(RecyclerViewActions.scrollToPosition(3));
+        onView(withId(R.id.cake_recycler_view)).perform(RecyclerViewActions.scrollToPosition(CHEESECAKE_POSITION));
     }
 
 }

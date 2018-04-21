@@ -67,6 +67,9 @@ public class DescriptionFragment extends Fragment {
     PassDataToActivity callback;
     public static final String PLAY_WHEN_READY = "play_when_ready";
     public static final String PLAYBACK_POSITION = "playback_position";
+    public static final String NO_VIDEO_URL = "";
+    public static final int ANDROID_MARSHMALLOW = 23;
+    public static final int FIRST_ITEM_FROM_ARRAY = 0;
 
     public DescriptionFragment() {
     }
@@ -101,7 +104,7 @@ public class DescriptionFragment extends Fragment {
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (arrayPosition > 0){
+                if (arrayPosition > FIRST_ITEM_FROM_ARRAY){
                     arrayPosition--;
                     createNewDescriptionFragment(arrayPosition);
                     releasePlayer();
@@ -170,7 +173,7 @@ public class DescriptionFragment extends Fragment {
 
         if (steps[arrayPosition] != null && videoUrl != null) {
             Uri uri = Uri.parse(videoUrl);
-            if (!uri.toString().equals("")) {
+            if (!uri.toString().equals(NO_VIDEO_URL)) {
                 MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
                 player.prepare(mediaSource, false, false);
             } else{
@@ -236,7 +239,7 @@ public class DescriptionFragment extends Fragment {
         try {
             callback = (PassDataToActivity) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement PassDataToActivity");
+            throw new ClassCastException(context.toString() + getString(R.string.implement_pass_data_to_activity));
         }
     }
 
@@ -253,17 +256,17 @@ public class DescriptionFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > ANDROID_MARSHMALLOW) {
             initializePlayer();
         }
 
-        if (arrayPosition == 0 && twoPane){
+        if (arrayPosition == FIRST_ITEM_FROM_ARRAY && twoPane){
         exoPlayerView.setVisibility(View.GONE);
         errorImage.setVisibility(View.GONE);
         }
 
         if (!twoPane) {
-            if (arrayPosition == 0) {
+            if (arrayPosition == FIRST_ITEM_FROM_ARRAY) {
                 previousButton.setVisibility(View.INVISIBLE);
             }
 
@@ -279,7 +282,7 @@ public class DescriptionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if ((Util.SDK_INT <= 23 || player == null)) {
+        if ((Util.SDK_INT <= ANDROID_MARSHMALLOW || player == null)) {
             initializePlayer();
         }
         int orientation = this.getResources().getConfiguration().orientation;
@@ -292,7 +295,7 @@ public class DescriptionFragment extends Fragment {
     public void onPause() {
         super.onPause();
         getPlayerPositionValues();
-        if (Util.SDK_INT <= 23) {
+        if (Util.SDK_INT <= ANDROID_MARSHMALLOW) {
             releasePlayer();
         }
     }
@@ -300,7 +303,7 @@ public class DescriptionFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > ANDROID_MARSHMALLOW) {
             releasePlayer();
         }
     }

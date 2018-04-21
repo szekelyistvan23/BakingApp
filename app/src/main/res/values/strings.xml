@@ -63,4 +63,6 @@
 </string>
     <string name="choose_a_cake">Choose a cake</string>
     <string name="display_ingredients">Display ingredients</string>
+    <string name="implement_pass_data_to_activity">must implement PassDataToActivity</string>
+    <string name="implement_send_position_to_activity">must implement SendPositionToActivity</string>
 </resources>
