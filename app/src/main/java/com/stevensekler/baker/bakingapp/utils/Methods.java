@@ -7,6 +7,8 @@ import com.stevensekler.baker.bakingapp.model.Cake;
 
 import java.util.List;
 
+import static com.stevensekler.baker.bakingapp.FragmentsActivity.INITIALIZING_INT_VARIABLE;
+
 public class Methods {
     public static final String NUTELLA_PIE = "Nutella Pie";
     public static final String BROWNIES = "Brownies";
@@ -28,7 +30,7 @@ public class Methods {
     }
 
     public static int returnCakeImageId(String imageName){
-        int result = 0;
+        int result = INITIALIZING_INT_VARIABLE;
         switch (imageName){
             case NUTELLA_PIE:
                 result = R.drawable.nutellapie;

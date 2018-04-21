@@ -21,6 +21,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static com.stevensekler.baker.bakingapp.FragmentsActivity.CAKE_STEPS;
+import static com.stevensekler.baker.bakingapp.FragmentsActivity.INITIALIZING_INT_VARIABLE;
+import static com.stevensekler.baker.bakingapp.fragments.DescriptionFragment.FIRST_ITEM_FROM_ARRAY;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +43,7 @@ public class ListFragment extends Fragment {
     public static final String STEP_ARRAY_POSITION = "step_array_position";
     public static final String STEP_ARRAY = "step_array";
     public static final String DESCRIPTION_FRAGMENT = "description_fragment";
+    public static final int DELAYS_IN_MILLISECONDS = 1;
     SendPositionToActivity callbackForPosition;
 
     public ListFragment() {
@@ -79,7 +82,7 @@ public class ListFragment extends Fragment {
         // Butterknife is distributed under Apache License, Version 2.0
         unbinder = ButterKnife.bind(this, view);
 
-        int result = 0;
+        int result = INITIALIZING_INT_VARIABLE;
 
         if (twoPane){
             result = R.id.master_description;
@@ -136,9 +139,9 @@ public class ListFragment extends Fragment {
             stepRecyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    stepRecyclerView.findViewHolderForAdapterPosition(0).itemView.performClick();
+                    stepRecyclerView.findViewHolderForAdapterPosition(FIRST_ITEM_FROM_ARRAY).itemView.performClick();
                 }
-            },1);
+            },DELAYS_IN_MILLISECONDS);
         }
     }
 
@@ -163,8 +166,8 @@ public class ListFragment extends Fragment {
     }
 
     private int getStepPositionFromArray(Step step) {
-        int result = 0;
-        for (int i = 0; i < stepsFromActivity.length; i++) {
+        int result = INITIALIZING_INT_VARIABLE;
+        for (int i = INITIALIZING_INT_VARIABLE; i < stepsFromActivity.length; i++) {
             if (stepsFromActivity[i].equals(step)) {
                 result = i;
                 return result;

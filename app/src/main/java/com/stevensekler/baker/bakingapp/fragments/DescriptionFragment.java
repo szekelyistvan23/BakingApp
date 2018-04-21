@@ -34,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.stevensekler.baker.bakingapp.FragmentsActivity.INITIALIZING_INT_VARIABLE;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_POSITION;
@@ -136,7 +137,7 @@ public class DescriptionFragment extends Fragment {
         args.putInt(STEP_ARRAY_POSITION, position);
         args.putParcelableArray(STEP_ARRAY, steps);
 
-        int container = 0;
+        int container = INITIALIZING_INT_VARIABLE;
 
         if (getActivity().findViewById(R.id.master_detail_layout) != null){
             container = R.id.master_description;

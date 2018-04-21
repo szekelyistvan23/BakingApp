@@ -1,6 +1,7 @@
 package com.stevensekler.baker.bakingapp;
 
 /**
+ *
  * Downloads data with Retrofit if isn't available in SharedPreferences and
  * displays the cake name's in a RecyclerView.
  */
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             downloadJsonData();
         }
     }
-    /** Downloads data from the Internet using Retrofit and converts data to a List using
+    /** Downloads data from the Internet using Retrofit and converts it to a List using
      * Gson converter. The implementation is based on:
      * https://www.youtube.com/watch?v=R4XU8yPzSx0
      * */
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(adapter);
     }
-    /** Serializes an array to be saved with Shared Preferences
+    /** Serializes an array to be saved to Shared Preferences
      *  @param cakes Cake array to be serialized
      *  @return Json array
      * */
@@ -154,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-
+    /** Calculates the span count for GridLayout
+     *  @return 1 if the device is a phone, 2 if the device is a tablet
+     * */
     private int calculateSpanCount(){
         int orientation = this.getResources().getConfiguration().orientation;
         if (Methods.isTablet(MainActivity.this) && orientation == Configuration.ORIENTATION_LANDSCAPE){

@@ -27,12 +27,13 @@ public class MainActivityTest {
     @Rule
     public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 //    Based on : https://github.com/chiuki/espresso-samples
+    /** Checks Main Activity's title */
     @Test
     public void checkTitle(){
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class))))
         .check(matches(withText(R.string.cakes_title)));
     }
-
+    /** Checks the title of FragmentsActivity after a click in MainActivity */
     @Test
     public void checkCakeName(){
         onView(withId(R.id.cake_recycler_view))
@@ -43,6 +44,7 @@ public class MainActivityTest {
 
     }
 
+    /** Scrolls RecyclerView to the cheesecake's position*/
     @Test
     public void scrollToPosition(){
         onView(withId(R.id.cake_recycler_view)).perform(RecyclerViewActions.scrollToPosition(CHEESECAKE_POSITION));
