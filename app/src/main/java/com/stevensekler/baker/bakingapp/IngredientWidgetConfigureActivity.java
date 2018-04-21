@@ -57,7 +57,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
         if (titleValue != null) {
             return titleValue;
         } else {
-            return context.getString(R.string.appwidget_text);
+            return context.getString(R.string.appwidget_cake_name);
         }
     }
 
@@ -76,7 +76,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
         setResult(RESULT_CANCELED);
 
         setContentView(R.layout.ingredient_widget_configure);
-        mAppWidgetText = (EditText) findViewById(R.id.appwidget_text);
+        mAppWidgetText = (EditText) findViewById(R.id.cake_name);
         findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
 
         // Find the widget id from the intent.
