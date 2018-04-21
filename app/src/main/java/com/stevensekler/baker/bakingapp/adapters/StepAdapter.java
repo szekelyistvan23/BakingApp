@@ -1,5 +1,9 @@
 package com.stevensekler.baker.bakingapp.adapters;
 
+/**
+ * Custom adapter for the RecyclerView from ListFragment.
+ * */
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
