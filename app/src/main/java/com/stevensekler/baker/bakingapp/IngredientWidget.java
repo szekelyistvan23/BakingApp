@@ -17,7 +17,7 @@ public class IngredientWidget extends AppWidgetProvider {
         CharSequence widgetText = IngredientWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredient_widget);
-        views.setTextViewText(R.id.cake_name, widgetText);
+        views.setTextViewText(R.id.cake_ingredients, widgetText);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

@@ -7,23 +7,35 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * The configuration screen for the {@link IngredientWidget IngredientWidget} AppWidget.
  */
 public class IngredientWidgetConfigureActivity extends Activity {
+    @BindView(R.id.radio_button_nutella_pie)
+    RadioButton radioButtonNutellaPie;
+    @BindView(R.id.radio_button_brownies)
+    RadioButton radioButtonBrownies;
+    @BindView(R.id.radio_button_yellow_cake)
+    RadioButton radioButtonYellowCake;
+    @BindView(R.id.radio_button_cheesecake)
+    RadioButton radioButtonCheesecake;
 
     private static final String PREFS_NAME = "com.stevensekler.baker.bakingapp.IngredientWidget";
     private static final String PREF_PREFIX_KEY = "appwidget_";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    EditText mAppWidgetText;
+    TextView mAppWidgetText;
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             final Context context = IngredientWidgetConfigureActivity.this;
 
             // When the button is clicked, store the string locally
-            String widgetText = mAppWidgetText.getText().toString();
+            String widgetText = getCheckedRadioButton();
             saveTitlePref(context, mAppWidgetId, widgetText);
 
             // It is the responsibility of the configuration activity to update the app widget
@@ -57,7 +69,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
         if (titleValue != null) {
             return titleValue;
         } else {
-            return context.getString(R.string.appwidget_cake_name);
+            return context.getString(R.string.appwidget_cake_ingredients);
         }
     }
 
@@ -76,7 +88,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
         setResult(RESULT_CANCELED);
 
         setContentView(R.layout.ingredient_widget_configure);
-        mAppWidgetText = (EditText) findViewById(R.id.cake_name);
+        mAppWidgetText = (TextView) findViewById(R.id.cake_ingredients);
         findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
 
         // Find the widget id from the intent.
@@ -92,8 +104,24 @@ public class IngredientWidgetConfigureActivity extends Activity {
             finish();
             return;
         }
+        if (mAppWidgetText != null) {
+            mAppWidgetText.setText(loadTitlePref(IngredientWidgetConfigureActivity.this, mAppWidgetId));
+        }
+    }
 
-        mAppWidgetText.setText(loadTitlePref(IngredientWidgetConfigureActivity.this, mAppWidgetId));
+    private String getCheckedRadioButton(){
+        ButterKnife.bind(this);
+        String textToDisplay = "";
+        if (radioButtonNutellaPie.isChecked()){
+            textToDisplay = getResources().getText(R.string.nutella_pie_ingredients).toString();
+        } else if (radioButtonBrownies.isChecked()){
+            textToDisplay = getResources().getText(R.string.brownies_ingredients).toString();
+        } else if (radioButtonYellowCake.isChecked()){
+            textToDisplay = getResources().getText(R.string.yellow_cake_ingredients).toString();
+        } else if (radioButtonCheesecake.isChecked()){
+            textToDisplay = getResources().getText(R.string.cheesecake_ingredients).toString();
+        }
+        return textToDisplay;
     }
 }
 
