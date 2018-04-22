@@ -13,7 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/appwidget_cake_name"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/widgetTitleBackground"
         android:textAllCaps="true"
         tools:text="@string/yellow_cake"
         />

@@ -25,11 +25,11 @@ public class IngredientWidgetConfigureActivity extends Activity {
     RadioButton radioButtonYellowCake;
     @BindView(R.id.radio_button_cheesecake)
     RadioButton radioButtonCheesecake;
+    TextView mAppWidgetText;
 
     private static final String PREFS_NAME = "com.stevensekler.baker.bakingapp.IngredientWidget";
     private static final String PREF_PREFIX_KEY = "appwidget_";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    TextView mAppWidgetText;
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             final Context context = IngredientWidgetConfigureActivity.this;
@@ -82,7 +82,6 @@ public class IngredientWidgetConfigureActivity extends Activity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if the user presses the back button.
         setResult(RESULT_CANCELED);
