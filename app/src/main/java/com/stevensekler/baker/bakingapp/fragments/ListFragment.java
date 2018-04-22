@@ -1,5 +1,6 @@
 package com.stevensekler.baker.bakingapp.fragments;
 
+/* Displays the steps to bake a cake with the help of a RecyclerView. */
 
 import android.content.Context;
 import android.os.Bundle;
@@ -48,7 +49,7 @@ public class ListFragment extends Fragment {
 
     public ListFragment() {
     }
-
+    /** Sends RecyclerView's LinearLayoutManager's state to FragmentsActivity. */
     public interface SendPositionToActivity{
         void listRecyclerViewPosition(Parcelable parcelable);
     }
@@ -77,6 +78,8 @@ public class ListFragment extends Fragment {
 
     /**
      * Sets up a RecyclerView to display the steps to make a cake.
+     * @param view the fragment's view
+     * @param state checks if there is any data in savedInstanceState
      */
     private void setupStepRecyclerView(View view, Bundle state) {
         // Butterknife is distributed under Apache License, Version 2.0
@@ -144,7 +147,9 @@ public class ListFragment extends Fragment {
             },DELAYS_IN_MILLISECONDS);
         }
     }
-
+    /** Restores LinearLayoutManager's state.
+     * @param savedInstanceState the state is retrieved from a Bundle
+     * */
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
@@ -152,7 +157,11 @@ public class ListFragment extends Fragment {
             layoutManager.onRestoreInstanceState(restoreState);
         }
     }
-
+    /** Creates a new ListFragment.
+     * @param state to restore RecyclerView's position
+     * @param steps without the array there will be no data to display
+     * @return the new fragment
+     * */
     public static ListFragment newInstance(Parcelable state, Step[] steps) {
 
         Bundle args = new Bundle();
@@ -164,7 +173,9 @@ public class ListFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    /** Returns the index of a Step object from an array
+     * @param step the methods search for this object's index
+     * @return the index number or -1 if couldn't find it*/
     private int getStepPositionFromArray(Step step) {
         int result = INITIALIZING_INT_VARIABLE;
         for (int i = INITIALIZING_INT_VARIABLE; i < stepsFromActivity.length; i++) {
@@ -175,6 +186,7 @@ public class ListFragment extends Fragment {
         }
         return -1;
     }
+    /** Checks if the interface is implemented in the activity. */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -184,13 +196,13 @@ public class ListFragment extends Fragment {
             throw new ClassCastException(context.toString() + getString(R.string.implement_send_position_to_activity));
         }
     }
-
+    /** Saves LinearLayoutManager's state*/
     @Override
     public void onStop() {
         super.onStop();
         callbackForPosition.listRecyclerViewPosition(layoutManager.onSaveInstanceState());
     }
-
+    /** Unbinder for Butterknife.*/
     @Override
     public void onDestroyView() {
         super.onDestroyView();

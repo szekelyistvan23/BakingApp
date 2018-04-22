@@ -1,5 +1,8 @@
 package com.stevensekler.baker.bakingapp.fragments;
 
+/**
+ * Displays a video if there is any and the long description of a step to make a cake.
+ */
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -75,6 +78,8 @@ public class DescriptionFragment extends Fragment {
     public DescriptionFragment() {
     }
 
+    /** Sends a boolean value to FragmentsActivity, this is necessary for restoring the fragment
+     * after a screen rotation.*/
     public interface PassDataToActivity{
         void descriptionFragmentDisplayed(boolean state);
     }
@@ -131,7 +136,8 @@ public class DescriptionFragment extends Fragment {
         }
         return view;
     }
-
+    /** Creates a new DescriptionFragment if a button is clicked.
+     * @param position the index of the step object that will be used to create a new fragment*/
     private void createNewDescriptionFragment(int position){
         Bundle args = new Bundle();
         args.putInt(STEP_ARRAY_POSITION, position);
@@ -154,7 +160,7 @@ public class DescriptionFragment extends Fragment {
                 .replace(container, descriptionFragment, DESCRIPTION_FRAGMENT)
                 .commit();
     }
-
+    /** Initializes ExoPlayer.*/
     private void initializePlayer() {
         player = ExoPlayerFactory.newSimpleInstance(
                 new DefaultRenderersFactory(getActivity()),
@@ -182,7 +188,7 @@ public class DescriptionFragment extends Fragment {
             }
         }
     }
-
+    /** Releases ExoPlayer.*/
     private void releasePlayer(){
         if (player != null) {
             playbackPosition = player.getCurrentPosition();
@@ -193,7 +199,7 @@ public class DescriptionFragment extends Fragment {
         showSystemUi();
     }
 
-
+    /** Gets the values from ExoPlayer needed for a successful state restoration. */
     private void getPlayerPositionValues(){
         if (player != null) {
             playbackPosition = player.getCurrentPosition();
@@ -202,7 +208,7 @@ public class DescriptionFragment extends Fragment {
     }
     /**
      * Based on: http://blog.grio.com/2014/02/androids-hiding-of-the-system-bar-fixed.html
-     *
+     * Hides the system's UI when the phone is in landscape mode.
      * */
     private void hideSystemUi() {
         getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -215,9 +221,8 @@ public class DescriptionFragment extends Fragment {
     }
 /**
  * Based on: http://blog.grio.com/2014/02/androids-hiding-of-the-system-bar-fixed.html
- *
+ * Restore the system's UI after it was hidden.
  * */
-
     private void showSystemUi(){
         if (systemUiState) {
             getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -225,7 +230,7 @@ public class DescriptionFragment extends Fragment {
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
-
+    /** Displays an image if there is no video url. */
     private void displayImage(){
         exoPlayerView.setVisibility(View.GONE);
         String title = (String) getActivity().getTitle();
@@ -233,7 +238,7 @@ public class DescriptionFragment extends Fragment {
         errorImage.setImageResource(titleId);
         errorImage.setVisibility(View.VISIBLE);
     }
-
+    /** Checks if PassDataToActivity is implemented in the Activity. */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -243,7 +248,7 @@ public class DescriptionFragment extends Fragment {
             throw new ClassCastException(context.toString() + getString(R.string.implement_pass_data_to_activity));
         }
     }
-
+    /** Restores ExoPlayer state from a Bundle.*/
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
@@ -252,7 +257,7 @@ public class DescriptionFragment extends Fragment {
             playWhenReady = savedInstanceState.getBoolean(PLAY_WHEN_READY);
         }
     }
-
+    /** Initializes ExoPlayer and hide the buttons.*/
     @Override
     public void onStart() {
         super.onStart();
@@ -279,7 +284,7 @@ public class DescriptionFragment extends Fragment {
             nextButton.setVisibility(View.GONE);
         }
     }
-
+    /** Initializes ExoPlayer and hide system's UI in landscape mode. */
     @Override
     public void onResume() {
         super.onResume();
@@ -291,7 +296,7 @@ public class DescriptionFragment extends Fragment {
             hideSystemUi();
         }
     }
-
+    /** Gets ExoPlayer's state and releases it. */
     @Override
     public void onPause() {
         super.onPause();
@@ -300,7 +305,7 @@ public class DescriptionFragment extends Fragment {
             releasePlayer();
         }
     }
-
+    /** Releases ExoPlayer. */
     @Override
     public void onStop() {
         super.onStop();
@@ -308,14 +313,14 @@ public class DescriptionFragment extends Fragment {
             releasePlayer();
         }
     }
-
+    /** Saves ExoPlayer's state.*/
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(PLAYBACK_POSITION, playbackPosition);
         outState.putBoolean(PLAY_WHEN_READY, playWhenReady);
     }
-
+    /** Unbindes ButterKnife. */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
