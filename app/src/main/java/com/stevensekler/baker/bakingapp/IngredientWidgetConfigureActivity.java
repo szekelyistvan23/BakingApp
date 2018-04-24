@@ -80,7 +80,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
 
     // Write the prefix to the SharedPreferences object for this widget
     static void saveTitlePref(Context context, int appWidgetId, String text) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
         prefs.putString(PREF_PREFIX_KEY + appWidgetId, text);
         prefs.apply();
     }
@@ -88,7 +88,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
     // Read the prefix from the SharedPreferences object for this widget.
     // If there is no preference saved, get the default from constants
     static String loadTitlePref(Context context, int appWidgetId) {
-        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
         if (titleValue != null) {
             return titleValue;
@@ -98,9 +98,9 @@ public class IngredientWidgetConfigureActivity extends Activity {
             return mapToString(defaultMap);
         }
     }
-
+    /** Deletes data from SharedPreferences.*/
     static void deleteTitlePref(Context context, int appWidgetId) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
         prefs.remove(PREF_PREFIX_KEY + appWidgetId);
         prefs.apply();
     }
@@ -115,13 +115,6 @@ public class IngredientWidgetConfigureActivity extends Activity {
         setContentView(R.layout.ingredient_widget_configure);
 
         ButterKnife.bind(this);
-
-
-//        mAppWidgetText = (TextView) findViewById(R.id.cake_ingredients);
-//        mAppWidgetTitle = (TextView) findViewById(R.id.cake_name);
-//        findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
-
-//        addButton.setOnClickListener(mOnClickListener);
 
         // Find the widget id from the intent.
         Intent intent = getIntent();
@@ -145,7 +138,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
             mAppWidgetText.setText(mapWithText.get(key));
         }
     }
-
+    /** Loads the ingredients for the selected cake */
     private String getCheckedRadioButton(){
         Map<String, String> cakeMap = new HashMap<String, String>();
             if (radioButtonNutellaPie.isChecked()) {
@@ -163,12 +156,12 @@ public class IngredientWidgetConfigureActivity extends Activity {
             }
         return mapToString(cakeMap);
     }
-
+    /** Tranforms a Map object into a String.*/
     static String mapToString(Map<String, String> map){
         Gson gson = new Gson();
         return gson.toJson(map);
     }
-
+    /** Tranforms a String object into a Map.*/
     static Map<String,String> stringToMap (String json){
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, String>>(){}.getType();
