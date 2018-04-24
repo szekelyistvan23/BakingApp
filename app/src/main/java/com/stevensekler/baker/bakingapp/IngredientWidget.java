@@ -5,6 +5,11 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.widget.RemoteViews;
 
+import java.util.Map;
+
+import static com.stevensekler.baker.bakingapp.IngredientWidgetConfigureActivity.loadTitlePref;
+import static com.stevensekler.baker.bakingapp.IngredientWidgetConfigureActivity.stringToMap;
+
 /**
  * Implementation of App Widget functionality.
  * App Widget Configuration implemented in {@link IngredientWidgetConfigureActivity IngredientWidgetConfigureActivity}
@@ -14,11 +19,15 @@ public class IngredientWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = IngredientWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
+//        CharSequence widgetText = loadTitlePref(context, appWidgetId);
+
+        String getMap = loadTitlePref(context, appWidgetId);
+        Map<String, String> mapWithText = stringToMap(getMap);
+        String key = mapWithText.keySet().toArray()[0].toString();
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredient_widget);
-        views.setTextViewText(R.id.cake_ingredients, widgetText);
-        views.setTextViewText(R.id.cake_name, "CAKE NAME");
+        views.setTextViewText(R.id.cake_name, key);
+        views.setTextViewText(R.id.cake_ingredients, mapWithText.get(key));
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

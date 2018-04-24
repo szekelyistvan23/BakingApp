@@ -10,8 +10,17 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.stevensekler.baker.bakingapp.utils.Methods.NUTELLA_PIE;
 
 /**
  * The configuration screen for the {@link IngredientWidget IngredientWidget} AppWidget.
@@ -26,9 +35,19 @@ public class IngredientWidgetConfigureActivity extends Activity {
     @BindView(R.id.radio_button_cheesecake)
     RadioButton radioButtonCheesecake;
     TextView mAppWidgetText;
+    TextView mAppWidgetTitle;
 
     private static final String PREFS_NAME = "com.stevensekler.baker.bakingapp.IngredientWidget";
     private static final String PREF_PREFIX_KEY = "appwidget_";
+    public static final String NUTELLA_PIE_INGREDIENTS = "2 CUP Graham Cracker crumbs \n" +
+                                                        "6 TBLSP unsalted butter, melted\n" +
+                                                        "0.5 CUP granulated sugar\n" +
+                                                        "1.5 TSP salt\n" +
+                                                        "5 TBLSP vanilla\n" +
+                                                        "1 K Nutella or other chocolate-hazelnut spread\n" +
+                                                        "500 G Mascapone Cheese(room temperature)\n" +
+                                                        "1 CUP heavy cream(cold)\n" +
+                                                        "4 OZ cream cheese(softened)";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
@@ -62,14 +81,16 @@ public class IngredientWidgetConfigureActivity extends Activity {
     }
 
     // Read the prefix from the SharedPreferences object for this widget.
-    // If there is no preference saved, get the default from a resource
+    // If there is no preference saved, get the default from constants
     static String loadTitlePref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
         String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
         if (titleValue != null) {
             return titleValue;
         } else {
-            return context.getString(R.string.appwidget_cake_ingredients);
+            Map<String, String> defaultMap = new HashMap<>();
+            defaultMap.put(NUTELLA_PIE, NUTELLA_PIE_INGREDIENTS);
+            return mapToString(defaultMap);
         }
     }
 
@@ -88,6 +109,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
 
         setContentView(R.layout.ingredient_widget_configure);
         mAppWidgetText = (TextView) findViewById(R.id.cake_ingredients);
+        mAppWidgetTitle = (TextView) findViewById(R.id.cake_name);
         findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
 
         // Find the widget id from the intent.
@@ -103,24 +125,45 @@ public class IngredientWidgetConfigureActivity extends Activity {
             finish();
             return;
         }
-        if (mAppWidgetText != null) {
-            mAppWidgetText.setText(loadTitlePref(IngredientWidgetConfigureActivity.this, mAppWidgetId));
+        if (mAppWidgetText != null && mAppWidgetTitle !=null) {
+            String getMap = loadTitlePref(IngredientWidgetConfigureActivity.this, mAppWidgetId);
+            Map<String, String> mapWithText = stringToMap(getMap);
+            String key = mapWithText.keySet().toArray()[0].toString();
+
+            mAppWidgetTitle.setText(key);
+            mAppWidgetText.setText(mapWithText.get(key));
         }
     }
 
     private String getCheckedRadioButton(){
         ButterKnife.bind(this);
-        String textToDisplay = "";
-        if (radioButtonNutellaPie.isChecked()){
-            textToDisplay = getResources().getText(R.string.nutella_pie_ingredients).toString();
-        } else if (radioButtonBrownies.isChecked()){
-            textToDisplay = getResources().getText(R.string.brownies_ingredients).toString();
-        } else if (radioButtonYellowCake.isChecked()){
-            textToDisplay = getResources().getText(R.string.yellow_cake_ingredients).toString();
-        } else if (radioButtonCheesecake.isChecked()){
-            textToDisplay = getResources().getText(R.string.cheesecake_ingredients).toString();
-        }
-        return textToDisplay;
+        Map<String, String> cakeMap = new HashMap<String, String>();
+            if (radioButtonNutellaPie.isChecked()) {
+                cakeMap.put(getResources().getText(R.string.nutella_pie).toString(),
+                        getResources().getText(R.string.nutella_pie_ingredients).toString());
+            } else if (radioButtonBrownies.isChecked()) {
+                cakeMap.put(getResources().getText(R.string.brownies).toString(),
+                        getResources().getText(R.string.brownies_ingredients).toString());
+            } else if (radioButtonYellowCake.isChecked()) {
+                cakeMap.put(getResources().getText(R.string.yellow_cake).toString(),
+                        getResources().getText(R.string.yellow_cake_ingredients).toString());
+            } else if (radioButtonCheesecake.isChecked()) {
+                cakeMap.put(getResources().getText(R.string.cheesecake).toString(),
+                        getResources().getText(R.string.cheesecake_ingredients).toString());
+            }
+        return mapToString(cakeMap);
+    }
+
+    static String mapToString(Map<String, String> map){
+        Gson gson = new Gson();
+        return gson.toJson(map);
+    }
+
+    static Map<String,String> stringToMap (String json){
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, String>>(){}.getType();
+        Map<String, String> resultMap = gson.fromJson(json, type);
+        return resultMap;
     }
 }
 

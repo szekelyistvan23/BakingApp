@@ -15,6 +15,7 @@
         android:contentDescription="@string/appwidget_cake_name"
         android:background="@color/widgetTitleBackground"
         android:textAllCaps="true"
+        android:textColor="@android:color/white"
         tools:text="@string/yellow_cake"
         />
 
