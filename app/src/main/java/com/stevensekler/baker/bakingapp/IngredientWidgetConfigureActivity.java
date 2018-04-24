@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.stevensekler.baker.bakingapp.utils.Methods.NUTELLA_PIE;
 
@@ -34,7 +36,11 @@ public class IngredientWidgetConfigureActivity extends Activity {
     RadioButton radioButtonYellowCake;
     @BindView(R.id.radio_button_cheesecake)
     RadioButton radioButtonCheesecake;
+    @Nullable
+    @BindView(R.id.cake_ingredients)
     TextView mAppWidgetText;
+    @Nullable
+    @BindView(R.id.cake_name)
     TextView mAppWidgetTitle;
 
     private static final String PREFS_NAME = "com.stevensekler.baker.bakingapp.IngredientWidget";
@@ -49,7 +55,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
                                                         "1 CUP heavy cream(cold)\n" +
                                                         "4 OZ cream cheese(softened)";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    View.OnClickListener mOnClickListener = new View.OnClickListener() {
+    @OnClick(R.id.add_button)
         public void onClick(View v) {
             final Context context = IngredientWidgetConfigureActivity.this;
 
@@ -66,7 +72,6 @@ public class IngredientWidgetConfigureActivity extends Activity {
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
             setResult(RESULT_OK, resultValue);
             finish();
-        }
     };
 
     public IngredientWidgetConfigureActivity() {
@@ -108,9 +113,15 @@ public class IngredientWidgetConfigureActivity extends Activity {
         setResult(RESULT_CANCELED);
 
         setContentView(R.layout.ingredient_widget_configure);
-        mAppWidgetText = (TextView) findViewById(R.id.cake_ingredients);
-        mAppWidgetTitle = (TextView) findViewById(R.id.cake_name);
-        findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
+
+        ButterKnife.bind(this);
+
+
+//        mAppWidgetText = (TextView) findViewById(R.id.cake_ingredients);
+//        mAppWidgetTitle = (TextView) findViewById(R.id.cake_name);
+//        findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
+
+//        addButton.setOnClickListener(mOnClickListener);
 
         // Find the widget id from the intent.
         Intent intent = getIntent();
@@ -136,7 +147,6 @@ public class IngredientWidgetConfigureActivity extends Activity {
     }
 
     private String getCheckedRadioButton(){
-        ButterKnife.bind(this);
         Map<String, String> cakeMap = new HashMap<String, String>();
             if (radioButtonNutellaPie.isChecked()) {
                 cakeMap.put(getResources().getText(R.string.nutella_pie).toString(),
