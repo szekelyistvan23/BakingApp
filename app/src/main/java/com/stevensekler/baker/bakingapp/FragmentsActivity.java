@@ -114,7 +114,7 @@ ListFragment.SendPositionToActivity{
      *  @return a Step array with the added object
      *  */
     private Step[] addingStepForIngredients (Step[] steps){
-        Step[] result = new Step[steps.length];
+        Step[] result = new Step[steps.length+1];
         Step ingredients = new Step();
 
         ingredients.setId(INGREDIENTS_ID);
@@ -123,7 +123,7 @@ ListFragment.SendPositionToActivity{
         ingredients.setDescription(makeIngredientsList());
 
         result[FIRST_ITEM_FROM_ARRAY] = ingredients;
-        for (int i = 1; i < steps.length; i++){
+        for (int i = 1; i <= steps.length; i++){
             result[i] = steps[i-1];
         }
         return result;
