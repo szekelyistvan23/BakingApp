@@ -90,4 +90,15 @@ public class Methods {
         }
         return null;
     }
+
+    /** Deletes data from Shared Preferences.
+     * @param context the context
+     * @param key the key to be deleted
+     */
+    public static void deleteDataFromSharedPreferences(Context context, String key) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(key);
+        editor.apply();
+    }
 }

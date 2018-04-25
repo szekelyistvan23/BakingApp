@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.stevensekler.baker.bakingapp.utils.Methods;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
     TextView mAppWidgetTitle;
 
     private static final String PREFS_NAME = "com.stevensekler.baker.bakingapp.IngredientWidget";
-    private static final String PREF_PREFIX_KEY = "appwidget_";
+    public static final String PREF_PREFIX_KEY = "appwidget_";
     public static final String NUTELLA_PIE_INGREDIENTS = "2 CUP Graham Cracker crumbs \n" +
                                                         "6 TBLSP unsalted butter, melted\n" +
                                                         "0.5 CUP granulated sugar\n" +
@@ -61,7 +62,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
 
             // When the button is clicked, store the string locally
             String widgetText = getCheckedRadioButton();
-            saveTitlePref(context, mAppWidgetId, widgetText);
+            Methods.saveToSharedPreferences(context, PREF_PREFIX_KEY + mAppWidgetId, widgetText);
 
             // It is the responsibility of the configuration activity to update the app widget
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -86,10 +87,11 @@ public class IngredientWidgetConfigureActivity extends Activity {
     }
 
     // Read the prefix from the SharedPreferences object for this widget.
-    // If there is no preference saved, get the default from constants
+    // If there is no preference saved, gets the default from constants
     static String loadTitlePref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
+        String titleValue = Methods.readFromSharedPreferences(context, PREF_PREFIX_KEY + appWidgetId);
+
         if (titleValue != null) {
             return titleValue;
         } else {
@@ -97,12 +99,6 @@ public class IngredientWidgetConfigureActivity extends Activity {
             defaultMap.put(NUTELLA_PIE, NUTELLA_PIE_INGREDIENTS);
             return mapToString(defaultMap);
         }
-    }
-    /** Deletes data from SharedPreferences.*/
-    static void deleteTitlePref(Context context, int appWidgetId) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-        prefs.remove(PREF_PREFIX_KEY + appWidgetId);
-        prefs.apply();
     }
 
     @Override

@@ -5,11 +5,14 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.widget.RemoteViews;
 
+import com.stevensekler.baker.bakingapp.utils.Methods;
+
 import java.util.Map;
 
 import static com.stevensekler.baker.bakingapp.IngredientWidgetConfigureActivity.loadTitlePref;
 import static com.stevensekler.baker.bakingapp.IngredientWidgetConfigureActivity.stringToMap;
 import static com.stevensekler.baker.bakingapp.fragments.DescriptionFragment.FIRST_ITEM_FROM_ARRAY;
+import static com.stevensekler.baker.bakingapp.IngredientWidgetConfigureActivity.PREF_PREFIX_KEY;
 
 /**
  * Implementation of App Widget functionality.
@@ -44,7 +47,8 @@ public class IngredientWidget extends AppWidgetProvider {
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
         for (int appWidgetId : appWidgetIds) {
-            IngredientWidgetConfigureActivity.deleteTitlePref(context, appWidgetId);
+//            IngredientWidgetConfigureActivity.deleteTitlePref(context, appWidgetId);
+            Methods.deleteDataFromSharedPreferences(context, PREF_PREFIX_KEY + appWidgetId);
         }
     }
 
