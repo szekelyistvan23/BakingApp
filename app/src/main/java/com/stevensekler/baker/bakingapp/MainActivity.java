@@ -53,7 +53,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setupRecyclerView();
-        if (!readSharedPreferences()){
+
+        String jsonData = Methods.readFromSharedPreferences(this,JSON_DATA);
+
+        if (jsonData != null){
+                cakes = deserializeJson(jsonData);
+                adapter.changeCakeData(cakes);
+        } else {
             downloadJsonData();
         }
     }
@@ -78,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Cake>> call, Response<List<Cake>> response) {
                 cakes = response.body();
                 adapter.changeCakeData(cakes);
-                saveSharedPreferences(serializeCakeArray(cakes));
+                Methods.saveToSharedPreferences(MainActivity.this, JSON_DATA, serializeCakeArray(cakes));
+//                saveSharedPreferences(serializeCakeArray(cakes));
             }
 
             @Override
@@ -140,21 +147,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(JSON_DATA, string);
         editor.apply();
     }
-    /** Reads data from Shared Preferences
-     *  @return false, if there is no saved data, this happens at the first run
-     *          true, if Json data is saved and changes the adapter data
-     *  */
-    private boolean readSharedPreferences(){
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-        String jsonData = sharedPreferences.getString(JSON_DATA, null);
-        if (jsonData != null) {
-            cakes = deserializeJson(jsonData);
-            adapter.changeCakeData(cakes);
-            return true;
-        } else {
-            return false;
-        }
-    }
+
     /** Calculates the span count for GridLayout
      *  @return 1 if the device is a phone, 2 if the device is a tablet
      * */

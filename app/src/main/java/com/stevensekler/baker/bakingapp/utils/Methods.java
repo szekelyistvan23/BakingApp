@@ -5,6 +5,8 @@ package com.stevensekler.baker.bakingapp.utils;
  */
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.model.Cake;
@@ -60,5 +62,32 @@ public class Methods {
                 break;
         }
         return result;
+    }
+
+    /** Saves a string to SharedPreferences.
+     * @param context the context
+     * @param key the key to save data
+     * @param text ta actual data to be  saved
+     * */
+    public static void saveToSharedPreferences(Context context, String key, String text) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedPreferences != null && key !=  null && text != null) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(key, text);
+            editor.apply();
+        }
+    }
+
+    /** Reads data from Shared Preferences.
+     * @param context the context
+     * @param key the key to be read
+     * @return null, if there is no saved data, this happens at the first run
+     *  */
+    public static String readFromSharedPreferences(Context context, String key) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedPreferences != null) {
+            return sharedPreferences.getString(key, null);
+        }
+        return null;
     }
 }
