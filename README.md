@@ -9,4 +9,5 @@ Create an app to view video walkthroughs of recipes. In this project, you’ll h
 - Butterknife
 - ExoPlayer
 - Gson
+- Picasso
 - Retrofit
