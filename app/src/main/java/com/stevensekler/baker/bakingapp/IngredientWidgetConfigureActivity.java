@@ -77,17 +77,9 @@ public class IngredientWidgetConfigureActivity extends Activity {
         super();
     }
 
-    // Write the prefix to the SharedPreferences object for this widget
-    static void saveTitlePref(Context context, int appWidgetId, String text) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-        prefs.putString(PREF_PREFIX_KEY + appWidgetId, text);
-        prefs.apply();
-    }
-
     // Read the prefix from the SharedPreferences object for this widget.
     // If there is no preference saved, gets the default from constants
     static String loadTitlePref(Context context, int appWidgetId) {
-        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String titleValue = Methods.readFromSharedPreferences(context, PREF_PREFIX_KEY + appWidgetId);
 
         if (titleValue != null) {
@@ -135,7 +127,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
     }
     /** Loads the ingredients for the selected cake */
     private String getCheckedRadioButton(){
-        Map<String, String> cakeMap = new HashMap<String, String>();
+        Map<String, String> cakeMap = new HashMap<>();
             if (radioButtonNutellaPie.isChecked()) {
                 cakeMap.put(getResources().getText(R.string.nutella_pie).toString(),
                         getResources().getText(R.string.nutella_pie_ingredients).toString());

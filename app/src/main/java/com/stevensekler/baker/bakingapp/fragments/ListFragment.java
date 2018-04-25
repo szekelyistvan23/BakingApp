@@ -13,14 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.reflect.TypeToken;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.adapters.StepAdapter;
 import com.stevensekler.baker.bakingapp.model.Step;
 import com.stevensekler.baker.bakingapp.utils.Methods;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,12 +36,9 @@ public class ListFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private Unbinder unbinder;
     private Step[] stepsFromActivity;
-    private int position;
     private Parcelable restoreState;
     private boolean twoPane;
     public static final String RECYCLER_VIEW_POSITION = "position";
-    public static final String STEP_OBJECT = "step_object";
-    public static final String STEP_ARRAY_SIZE = "step_array_size";
     public static final String STEP_PREFERENCES = "step_preferences";
     public static final String STEP_ARRAY_POSITION = "step_array_position";
     public static final String STEP_ARRAY = "step_array";

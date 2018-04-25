@@ -16,7 +16,6 @@ import com.stevensekler.baker.bakingapp.model.Step;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 
 import static com.stevensekler.baker.bakingapp.FragmentsActivity.INITIALIZING_INT_VARIABLE;
 

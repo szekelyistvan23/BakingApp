@@ -138,15 +138,6 @@ public class MainActivity extends AppCompatActivity {
         Type cakeType = new TypeToken<List<Cake>>(){}.getType();
         return gson.fromJson(string, cakeType);
     }
-    /** Saves Json to Shared Preferences
-     *  @param string Json data
-     * */
-    private void saveSharedPreferences(String string){
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(JSON_DATA, string);
-        editor.apply();
-    }
 
     /** Calculates the span count for GridLayout
      *  @return 1 if the device is a phone, 2 if the device is a tablet

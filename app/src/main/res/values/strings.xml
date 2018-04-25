@@ -2,14 +2,11 @@
     <string name="app_name">BakingApp</string>
     <string name="cakes_image">Cakes image</string>
     <string name="cakes_name">Cake\'s name</string>
-    <string name="ingredients">flour, sugar, egg</string>
     <string name="no_data">No available data!</string>
     <string name="cakes_title">Cakes</string>
     <string name="no_internet">No Internet connection!</string>
     <string name="appwidget_cake_name">Cake name</string>
     <string name="appwidget_cake_ingredients">Cake ingredients</string>
-    <string name="configure">Configure</string>
-    <string name="add_widget">Add widget</string>
     <string name="nutella_pie">Nutella pie</string>
     <string name="brownies">Brownies</string>
     <string name="yellow_cake">Yellow cake</string>

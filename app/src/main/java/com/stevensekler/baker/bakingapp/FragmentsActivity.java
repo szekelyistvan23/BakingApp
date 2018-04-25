@@ -37,7 +37,6 @@ ListFragment.SendPositionToActivity{
     public static final String NEW_LINE = "\n";
     public static final String LIST_FRAGMENT_STATE = "list_fragment_state";
     public static final String DESCRIPTION_FRAGMENT_DISPLAYED ="description_fragment_displayed";
-    private int recyclerViewPosition = 0;
     private boolean isDescriptionFragmentDisplayed;
     private Parcelable listFragmentState;
     private ListFragment listFragment;
