@@ -120,6 +120,7 @@ ListFragment.SendPositionToActivity{
         ingredients.setId(INGREDIENTS_ID);
         ingredients.setShortDescription(INGREDIENTS_SHORT_DESCRIPTION);
         ingredients.setVideoURL(INGREDIENTS_NO_VIDEO);
+        ingredients.setThumbnailURL(INGREDIENTS_NO_VIDEO);
         ingredients.setDescription(makeIngredientsList());
 
         result[FIRST_ITEM_FROM_ARRAY] = ingredients;

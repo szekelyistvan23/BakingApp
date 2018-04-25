@@ -31,6 +31,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.model.Step;
 import com.stevensekler.baker.bakingapp.utils.Methods;
@@ -55,6 +56,9 @@ public class DescriptionFragment extends Fragment {
     Button previousButton;
     @BindView(R.id.next_button)
     Button nextButton;
+    @Nullable
+    @BindView(R.id.thumbnail_image)
+    ImageView  thumbnailImage;
     @BindView(R.id.error_image)
     ImageView errorImage;
     @BindView(R.id.place_of_video)
@@ -78,6 +82,7 @@ public class DescriptionFragment extends Fragment {
     public static final String ARRAY_POSITION = "array_position";
     public static final String NO_VIDEO_URL = "";
     public static final String EMPTY_STRING = "";
+    public static final String VIDEO_FILE_EXTENSION = "mp4";
     public static final int ANDROID_MARSHMALLOW = 23;
     public static final int FIRST_ITEM_FROM_ARRAY = 0;
 
@@ -148,6 +153,16 @@ public class DescriptionFragment extends Fragment {
         } else {
             twoPane = false;
         }
+
+        String url = steps[arrayPosition].getThumbnailURL();
+        if (!url.equals(EMPTY_STRING) && !url.contains(VIDEO_FILE_EXTENSION)) {
+            Picasso.get()
+                    .load(url)
+                    .placeholder(R.drawable.cake_thumbnail)
+                    .error(R.drawable.cake_thumbnail)
+                    .into(thumbnailImage);
+        }
+
         return view;
     }
     /** Creates a new DescriptionFragment if a button is clicked.

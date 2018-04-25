@@ -65,4 +65,5 @@
     <string name="step_s_long_description">Step\'s long description.</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="cake_thumbnail_image">Cake thumbnail image.</string>
 </resources>
