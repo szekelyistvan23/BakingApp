@@ -65,4 +65,7 @@
     <string name="display_ingredients">Display ingredients</string>
     <string name="implement_pass_data_to_activity">must implement PassDataToActivity</string>
     <string name="implement_send_position_to_activity">must implement SendPositionToActivity</string>
+    <string name="step_s_long_description">Step\'s long description.</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>

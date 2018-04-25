@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBackground">#EEE4E1</color>
     <color name="widgetTitleBackground">#6d4c41</color>
+    <color name="exo_player_background">#CC000000</color>
+    <color name="button_color">#FFBEBEBE</color>
 </resources>

@@ -11,7 +11,7 @@
     <FrameLayout
         android:id="@+id/master_list"
         android:name="com.stevensekler.baker.bakingapp.fragments.ListFragment"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/any_size"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toStartOf="@+id/master_description"
         app:layout_constraintHorizontal_bias="0.5"
@@ -22,7 +22,7 @@
     <FrameLayout
         android:id="@+id/master_description"
         android:name="com.stevensekler.baker.bakingapp.fragments.DescriptionFragment"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/any_size"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

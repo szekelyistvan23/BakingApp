@@ -64,7 +64,7 @@ public class ListFragment extends Fragment {
         }
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        /* TODO Try to solve this with Butterknife */
+
         if (getActivity().findViewById(R.id.master_detail_layout) != null) {
             twoPane = true;
         } else {
@@ -173,7 +173,7 @@ public class ListFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    /** Returns the index of a Step object from an array
+    /** Returns the index of a Step object from an array.
      * @param step the methods search for this object's index
      * @return the index number or -1 if couldn't find it*/
     private int getStepPositionFromArray(Step step) {
@@ -196,13 +196,13 @@ public class ListFragment extends Fragment {
             throw new ClassCastException(context.toString() + getString(R.string.implement_send_position_to_activity));
         }
     }
-    /** Saves LinearLayoutManager's state*/
+    /** Saves LinearLayoutManager's state. */
     @Override
     public void onStop() {
         super.onStop();
         callbackForPosition.listRecyclerViewPosition(layoutManager.onSaveInstanceState());
     }
-    /** Unbinder for Butterknife.*/
+    /** Unbinder for Butterknife. */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

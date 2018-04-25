@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginBottom="8dp">
+    android:layout_marginStart="@dimen/standard_margin"
+    android:layout_marginBottom="@dimen/standard_margin">
 
     <ImageView
         android:id="@+id/cake_image"
@@ -24,8 +24,8 @@
         android:id="@+id/cake_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textSize="35sp"
+        android:layout_marginStart="@dimen/standard_margin"
+        android:textSize="@dimen/cake_item_text_size"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/cake_image"

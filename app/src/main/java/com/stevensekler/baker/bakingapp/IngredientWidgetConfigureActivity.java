@@ -72,7 +72,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
             setResult(RESULT_OK, resultValue);
             finish();
-    };
+    }
 
     public IngredientWidgetConfigureActivity() {
         super();
@@ -165,8 +165,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
     static Map<String,String> stringToMap (String json){
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, String>>(){}.getType();
-        Map<String, String> resultMap = gson.fromJson(json, type);
-        return resultMap;
+        return gson.fromJson(json, type);
     }
 }
 
