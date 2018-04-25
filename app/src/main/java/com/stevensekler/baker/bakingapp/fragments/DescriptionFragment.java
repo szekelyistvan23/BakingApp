@@ -6,6 +6,8 @@ package com.stevensekler.baker.bakingapp.fragments;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -183,6 +185,9 @@ public class DescriptionFragment extends Fragment {
             if (!uri.toString().equals(NO_VIDEO_URL)) {
                 MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
                 player.prepare(mediaSource, false, false);
+                if (!isNetworkConnection()){
+                    displayImage();
+                }
             } else{
                 displayImage();
             }
@@ -237,6 +242,27 @@ public class DescriptionFragment extends Fragment {
         int titleId = Methods.returnCakeImageId(title);
         errorImage.setImageResource(titleId);
         errorImage.setVisibility(View.VISIBLE);
+    }
+    /** Checks the state of the network connection.
+     * @return true if there is Internet connection,
+     *         false if is not
+     * */
+    public boolean isNetworkConnection() {
+        try {
+            ConnectivityManager connectivityManager =
+                    (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null) {
+                if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI && networkInfo.isConnected()) {
+                    return true;
+                } else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE && networkInfo.isConnected()) {
+                    return true;
+                }
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        return false;
     }
     /** Checks if PassDataToActivity is implemented in the Activity. */
     @Override
