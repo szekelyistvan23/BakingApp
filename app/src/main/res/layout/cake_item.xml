@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/standard_margin">
-
+    <!--Images have been taken from stocksnap.io-->
     <ImageView
         android:id="@+id/cake_image"
         android:layout_width="match_parent"

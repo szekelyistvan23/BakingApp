@@ -42,7 +42,6 @@ public class IngredientWidgetConfigureActivity extends Activity {
     @BindView(R.id.cake_name)
     TextView mAppWidgetTitle;
 
-    private static final String PREFS_NAME = "com.stevensekler.baker.bakingapp.IngredientWidget";
     public static final String PREF_PREFIX_KEY = "appwidget_";
     public static final String NUTELLA_PIE_INGREDIENTS = "2 CUP Graham Cracker crumbs \n" +
                                                         "6 TBLSP unsalted butter, melted\n" +
