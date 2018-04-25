@@ -198,15 +198,6 @@ public class ListFragment extends Fragment {
         return -1;
     }
 
-    private Step[] arrayListToStepArray (Object object){
-        List<Step> array = (ArrayList<Step>) object;
-        int arraySize = array.size();
-        Step[] result = new Step[arraySize];
-        for (int i = INITIALIZING_INT_VARIABLE; i < arraySize; i++){
-            result[i] = array.get(i);
-        }
-        return result;
-    }
     /** Checks if the interface is implemented in the activity. */
     @Override
     public void onAttach(Context context) {

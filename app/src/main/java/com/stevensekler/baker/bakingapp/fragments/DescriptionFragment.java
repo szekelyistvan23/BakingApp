@@ -43,6 +43,7 @@ import static com.stevensekler.baker.bakingapp.FragmentsActivity.INITIALIZING_IN
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.DESCRIPTION_FRAGMENT;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY;
 import static com.stevensekler.baker.bakingapp.fragments.ListFragment.STEP_ARRAY_POSITION;
+import static java.lang.Boolean.valueOf;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,7 +74,10 @@ public class DescriptionFragment extends Fragment {
     PassDataToActivity callback;
     public static final String PLAY_WHEN_READY = "play_when_ready";
     public static final String PLAYBACK_POSITION = "playback_position";
+    public static final String DESCRIPTION_STEP_ARRAY = "description_step_array";
+    public static final String ARRAY_POSITION = "array_position";
     public static final String NO_VIDEO_URL = "";
+    public static final String EMPTY_STRING = "";
     public static final int ANDROID_MARSHMALLOW = 23;
     public static final int FIRST_ITEM_FROM_ARRAY = 0;
 
@@ -98,7 +102,15 @@ public class DescriptionFragment extends Fragment {
         }
 
         if (getArguments().containsKey(STEP_ARRAY)) {
-            steps = (Step[]) getArguments().getParcelableArray(STEP_ARRAY);
+            try {
+                steps = (Step[]) getArguments().getParcelableArray(STEP_ARRAY);
+            } catch (ClassCastException e){
+                e.printStackTrace();
+                steps = Methods.readStepArray(getActivity(), DESCRIPTION_STEP_ARRAY);
+                arrayPosition = Integer.parseInt(Methods.readFromSharedPreferences(getActivity(), ARRAY_POSITION));
+                playbackPosition = Long.parseLong(Methods.readFromSharedPreferences(getActivity(), PLAYBACK_POSITION));
+                playWhenReady = valueOf(Methods.readFromSharedPreferences(getActivity(), PLAY_WHEN_READY));
+            }
         }
 
         if (stepDescription != null && steps != null){
@@ -264,6 +276,13 @@ public class DescriptionFragment extends Fragment {
         }
         return false;
     }
+    /** Saves the fragment state before the app enters in background. */
+    private void saveStateBeforeAppInBackground(){
+        Methods.saveStepArray(getActivity(), steps, DESCRIPTION_STEP_ARRAY);
+        Methods.saveToSharedPreferences(getActivity(), ARRAY_POSITION, arrayPosition + EMPTY_STRING);
+        Methods.saveToSharedPreferences(getActivity(), PLAYBACK_POSITION, playbackPosition + EMPTY_STRING);
+        Methods.saveToSharedPreferences(getActivity(), PLAY_WHEN_READY, playWhenReady + EMPTY_STRING);
+    }
     /** Checks if PassDataToActivity is implemented in the Activity. */
     @Override
     public void onAttach(Context context) {
@@ -331,13 +350,14 @@ public class DescriptionFragment extends Fragment {
             releasePlayer();
         }
     }
-    /** Releases ExoPlayer. */
+    /** Releases ExoPlayer and saves states. */
     @Override
     public void onStop() {
         super.onStop();
         if (Util.SDK_INT > ANDROID_MARSHMALLOW) {
             releasePlayer();
         }
+        saveStateBeforeAppInBackground();
     }
     /** Saves ExoPlayer's state.*/
     @Override
@@ -346,7 +366,7 @@ public class DescriptionFragment extends Fragment {
         outState.putLong(PLAYBACK_POSITION, playbackPosition);
         outState.putBoolean(PLAY_WHEN_READY, playWhenReady);
     }
-    /** Unbindes ButterKnife. */
+    /** Unbinds ButterKnife. */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

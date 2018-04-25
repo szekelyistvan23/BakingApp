@@ -124,7 +124,11 @@ public class Methods {
         Type type = new TypeToken<Object>(){}.getType();
         return gson.fromJson(json, type);
     }
-
+    /** Saves a Step array to Shared Preferences
+     * @param context the context
+     * @param array data to be saved
+     * @param key the key for saved data
+     * */
     public static void saveStepArray(Context context, Step[] array, String key){
         Gson gson = new Gson();
         String arrayToSave = gson.toJson(array);
@@ -132,6 +136,11 @@ public class Methods {
         saveToSharedPreferences(context, key, arrayToSave);
     }
 
+    /** Reads a Step array from Shared Preferences
+     * @param context the context
+     * @param key the key for the saved data
+     * @return the Step array loaded from Shared Preferences
+     * */
     public static Step[] readStepArray(Context context, String key){
         Gson gson = new Gson();
         Type type = new TypeToken<Step[]>(){}.getType();
