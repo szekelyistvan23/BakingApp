@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.model.Cake;
 import com.stevensekler.baker.bakingapp.utils.Methods;
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.CakeViewHolder> {
     private List<Cake> cakeArray;
     private OnItemClickListener cakeListener;
+    public static final String EMPTY_STRING = "";
 
     public CakeAdapter(List<Cake> cakeArray, OnItemClickListener listener) {
         this.cakeArray = cakeArray;
@@ -45,7 +47,18 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.CakeViewHolder
     @Override
     public void onBindViewHolder(final CakeAdapter.CakeViewHolder holder, int position) {
         holder.cakeName.setText(cakeArray.get(position).getName());
-        holder.cakeImages.setImageResource(Methods.selectImage(cakeArray, position));
+
+        String url = cakeArray.get(position).getImage();
+        if (!url.equals(EMPTY_STRING)) {
+            Picasso.get()
+                    .load(cakeArray.get(position).getImage())
+                    .placeholder(R.drawable.placeholder)
+                    .error(Methods.selectImage(cakeArray, position))
+                    .into(holder.cakeImages);
+        } else {
+            holder.cakeImages.setImageResource(Methods.selectImage(cakeArray, position));
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
