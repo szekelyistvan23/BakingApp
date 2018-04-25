@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.model.Cake;
+import com.stevensekler.baker.bakingapp.model.Step;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -121,6 +122,22 @@ public class Methods {
     public static Object stringToObject(String json){
         Gson gson = new Gson();
         Type type = new TypeToken<Object>(){}.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public static void saveStepArray(Context context, Step[] array, String key){
+        Gson gson = new Gson();
+        String arrayToSave = gson.toJson(array);
+
+        saveToSharedPreferences(context, key, arrayToSave);
+    }
+
+    public static Step[] readStepArray(Context context, String key){
+        Gson gson = new Gson();
+        Type type = new TypeToken<Step[]>(){}.getType();
+
+        String json = readFromSharedPreferences(context, key);
+
         return gson.fromJson(json, type);
     }
 }

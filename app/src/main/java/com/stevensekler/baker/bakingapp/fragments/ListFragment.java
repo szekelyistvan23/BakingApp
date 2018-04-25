@@ -13,9 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.reflect.TypeToken;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.adapters.StepAdapter;
 import com.stevensekler.baker.bakingapp.model.Step;
+import com.stevensekler.baker.bakingapp.utils.Methods;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +46,7 @@ public class ListFragment extends Fragment {
     public static final String RECYCLER_VIEW_POSITION = "position";
     public static final String STEP_OBJECT = "step_object";
     public static final String STEP_ARRAY_SIZE = "step_array_size";
+    public static final String STEP_PREFERENCES = "step_preferences";
     public static final String STEP_ARRAY_POSITION = "step_array_position";
     public static final String STEP_ARRAY = "step_array";
     public static final String DESCRIPTION_FRAGMENT = "description_fragment";
@@ -59,7 +65,12 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         if (getArguments() != null) {
-            stepsFromActivity = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
+            try {
+                stepsFromActivity = (Step[]) getArguments().getParcelableArray(CAKE_STEPS);
+            } catch (ClassCastException e){
+                e.printStackTrace();
+                stepsFromActivity = Methods.readStepArray(getActivity(), STEP_PREFERENCES);
+            }
             restoreState = getArguments().getParcelable(RECYCLER_VIEW_POSITION);
         }
 
@@ -186,6 +197,16 @@ public class ListFragment extends Fragment {
         }
         return -1;
     }
+
+    private Step[] arrayListToStepArray (Object object){
+        List<Step> array = (ArrayList<Step>) object;
+        int arraySize = array.size();
+        Step[] result = new Step[arraySize];
+        for (int i = INITIALIZING_INT_VARIABLE; i < arraySize; i++){
+            result[i] = array.get(i);
+        }
+        return result;
+    }
     /** Checks if the interface is implemented in the activity. */
     @Override
     public void onAttach(Context context) {
@@ -201,8 +222,9 @@ public class ListFragment extends Fragment {
     public void onStop() {
         super.onStop();
         callbackForPosition.listRecyclerViewPosition(layoutManager.onSaveInstanceState());
+        Methods.saveStepArray(getActivity(), stepsFromActivity, STEP_PREFERENCES);
     }
-    /** Unbinder for Butterknife. */
+    /** Unbinds for ButterKnife. */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
