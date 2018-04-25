@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.stevensekler.baker.bakingapp.R;
 import com.stevensekler.baker.bakingapp.model.Cake;
 
+import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 import static com.stevensekler.baker.bakingapp.FragmentsActivity.INITIALIZING_INT_VARIABLE;
 
@@ -100,5 +104,23 @@ public class Methods {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(key);
         editor.apply();
+    }
+
+    /** Serialize an Object with Gson.
+     * @param object data to be serialized
+     * @return the serialized object
+     * */
+    public static String objectToString(Object object){
+        Gson gson = new Gson();
+        return gson.toJson(object);
+    }
+    /** Deserialize json data.
+     * @param json deserialize this data
+     * @return the object extracted from json
+     * */
+    public static Object stringToObject(String json){
+        Gson gson = new Gson();
+        Type type = new TypeToken<Object>(){}.getType();
+        return gson.fromJson(json, type);
     }
 }

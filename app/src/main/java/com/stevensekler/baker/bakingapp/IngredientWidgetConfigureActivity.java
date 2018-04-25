@@ -11,11 +11,8 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.stevensekler.baker.bakingapp.utils.Methods;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.stevensekler.baker.bakingapp.fragments.DescriptionFragment.FIRST_ITEM_FROM_ARRAY;
 import static com.stevensekler.baker.bakingapp.utils.Methods.NUTELLA_PIE;
 
 /**
@@ -97,7 +95,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
         } else {
             Map<String, String> defaultMap = new HashMap<>();
             defaultMap.put(NUTELLA_PIE, NUTELLA_PIE_INGREDIENTS);
-            return mapToString(defaultMap);
+            return Methods.objectToString(defaultMap);
         }
     }
 
@@ -127,8 +125,9 @@ public class IngredientWidgetConfigureActivity extends Activity {
         }
         if (mAppWidgetText != null && mAppWidgetTitle !=null) {
             String getMap = loadTitlePref(IngredientWidgetConfigureActivity.this, mAppWidgetId);
-            Map<String, String> mapWithText = stringToMap(getMap);
-            String key = mapWithText.keySet().toArray()[0].toString();
+            @SuppressWarnings("unchecked")
+            Map<String, String> mapWithText = (Map<String, String>) Methods.stringToObject(getMap);
+            String key = mapWithText.keySet().toArray()[FIRST_ITEM_FROM_ARRAY].toString();
 
             mAppWidgetTitle.setText(key);
             mAppWidgetText.setText(mapWithText.get(key));
@@ -150,18 +149,7 @@ public class IngredientWidgetConfigureActivity extends Activity {
                 cakeMap.put(getResources().getText(R.string.cheesecake).toString(),
                         getResources().getText(R.string.cheesecake_ingredients).toString());
             }
-        return mapToString(cakeMap);
-    }
-    /** Tranforms a Map object into a String.*/
-    static String mapToString(Map<String, String> map){
-        Gson gson = new Gson();
-        return gson.toJson(map);
-    }
-    /** Tranforms a String object into a Map.*/
-    static Map<String,String> stringToMap (String json){
-        Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, String>>(){}.getType();
-        return gson.fromJson(json, type);
+        return Methods.objectToString(cakeMap);
     }
 }
 

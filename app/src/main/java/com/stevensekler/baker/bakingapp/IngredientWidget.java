@@ -10,7 +10,6 @@ import com.stevensekler.baker.bakingapp.utils.Methods;
 import java.util.Map;
 
 import static com.stevensekler.baker.bakingapp.IngredientWidgetConfigureActivity.loadTitlePref;
-import static com.stevensekler.baker.bakingapp.IngredientWidgetConfigureActivity.stringToMap;
 import static com.stevensekler.baker.bakingapp.fragments.DescriptionFragment.FIRST_ITEM_FROM_ARRAY;
 import static com.stevensekler.baker.bakingapp.IngredientWidgetConfigureActivity.PREF_PREFIX_KEY;
 
@@ -24,7 +23,8 @@ public class IngredientWidget extends AppWidgetProvider {
                                 int appWidgetId) {
 
         String getMap = loadTitlePref(context, appWidgetId);
-        Map<String, String> mapWithText = stringToMap(getMap);
+        @SuppressWarnings("unchecked")
+        Map<String, String> mapWithText = (Map<String, String>) Methods.stringToObject(getMap);
         String key = mapWithText.keySet().toArray()[FIRST_ITEM_FROM_ARRAY].toString();
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredient_widget);
