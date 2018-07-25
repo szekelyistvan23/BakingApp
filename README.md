@@ -12,5 +12,5 @@ Create an app to view video walkthroughs of recipes. In this project, you’ll h
 - Picasso
 - Retrofit
 
-![Screenshot](tablet.png)
-![Screenshot](phone.png)
+![Screenshot](tablet.gif)
+![Screenshot](phone.gif)
